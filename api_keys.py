@@ -1,0 +1,5 @@
+alvan_key = 'YIUV378DGCY4UAN8'
+nomics_key = '9a92a5867a1d8c6edac4fafb65d55388'
+gold_api = 'goldapi-dftfukkopkwmr-io'
+quandl_key = 'ej9FkBV6TqQs4susXswy'
+fred_key = '6703538ff116cc9f018b0c74260a1d8a'
