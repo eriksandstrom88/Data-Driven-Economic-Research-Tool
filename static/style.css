@@ -1,0 +1,122 @@
+/* style css */
+
+.container-fluid {
+    /* margin-left:80;
+    margin-right:80; 
+    min-width: 1500;
+    max-width: 1720; */
+    padding:40px;
+    width: 100%;
+    background-color:cornflowerblue;
+}
+
+.jumbotron {
+    background-color:rgb(46, 43, 43);
+}
+
+h1 {
+    color:white;
+    font-size: 3rem
+}
+h3 {
+    color: black;
+    text-align: center;
+}
+
+/* #area-datetime {
+   max-width:1050px; */
+   /* max-height: 700; */
+   /* margin-left: 35px auto;
+   margin-right: 35px auto;  */
+   /* } */
+
+#index-table>tr:nth-child(odd)>td, 
+#index-table>tbody>tr:nth-child(odd)>th {
+   background-color: darkgray;
+ }
+
+#index-table>tr:nth-child(even)>td, 
+#index-table>tbody>tr:nth-child(even)>th {
+   background-color: lightgray;
+ }
+
+ .table-striped>thead>tr>td{
+     background-color:rgb(46,42,43);
+     /* text:white */
+ }
+
+#sumstats-table-1>tr:nth-child(odd)>td, 
+#sumstats-table-1>tbody>tr:nth-child(odd)>th {
+   background-color: darkgray;
+ }
+
+ #sumstats-table-2>tr:nth-child(odd)>td, 
+#sumstats-table-2>tbody>tr:nth-child(odd)>th {
+   background-color: darkgray;
+}
+
+#sumstats-table-1>tr:nth-child(even)>td, 
+#sumstats-table-1>tbody>tr:nth-child(even)>th {
+   background-color: lightgray;
+}
+
+#sumstats-table-2>tr:nth-child(even)>td, 
+#sumstats-table-2>tbody>tr:nth-child(even)>th {
+   background-color: lightgray;
+ }
+
+ #selection-table-body>tr:nth-child(odd)>td, 
+#selection-table-body>tbody>tr:nth-child(odd)>th {
+   background-color: darkgray;
+ }
+
+#selection-table-body>tr:nth-child(even)>td, 
+#selection-table-body>tbody>tr:nth-child(even)>th {
+   background-color: lightgray;
+ }
+
+#cpi-model-table>tr:nth-child(odd)>td, 
+#cpi-model-table>tbody>tr:nth-child(odd)>th {
+   background-color: darkgray;
+}
+
+#cpi-model-table>tr:nth-child(even)>td, 
+#cpi-model-table>tbody>tr:nth-child(even)>th {
+   background-color: lightgray;
+}
+
+#pce-model-table>tr:nth-child(odd)>td, 
+#pce-model-table>tbody>tr:nth-child(odd)>th {
+   background-color: darkgray;
+}
+
+#pce-model-table>tr:nth-child(even)>td, 
+#pce-model-table>tbody>tr:nth-child(even)>th {
+   background-color: lightgray;
+}
+
+#deflator-model-table>tr:nth-child(odd)>td, 
+#deflator-model-table>tbody>tr:nth-child(odd)>th {
+   background-color: darkgray;
+}
+
+#deflator-model-table>tr:nth-child(even)>td, 
+#deflator-model-table>tbody>tr:nth-child(even)>th {
+   background-color: lightgray;
+}
+
+#cpi-btn {
+   background-color: fuchsia;
+}
+
+#pce-btn {
+   background-color: fuchsia;
+}
+
+#deflator-btn {
+   background-color: fuchsia;
+}
+
+.text-center {
+   text-align: center;
+}

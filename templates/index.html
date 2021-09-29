@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>Inflation Research Tool for Economists</title>
+    <!--<link rel='icon' href="OPTIONAL put some kind of icon here"/>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel='stylesheet' type="text/css" href="../static/style.css">
+    <link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="jumbotron text-center">
+            <h1>Inflation Research Tool for Economists</h1>
+        </div>
+        <br/>
+        <br/>
+        <!-- <div class="container"> -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <h2>Choose 5 Series to Compare</h2>
+                </div>
+                <div class="row">
+                    <p>Use the dropdown menus below the chart to select up to 5 data series to display on the chart.  For reference,
+                        the numbers in the dropdowns are the index numbers of different series that can be found in the index table at 
+                        the bottom of the page.</p>
+                        
+                        <p>The summary statistic tables will automatically populate based on the data that is selected.
+                        The summary tables will adjust according to the chart zooming into a certain range, or panning once zoomed.
+                        To return to the original chart with its full date range, click on the house icon in the chart's tool bar top right.</p>
+
+                        <p>Individual line plots can be turned on or off by clicking on the legend below the chart.
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <!-- <div class="row">
+                            <h3>Add up to 5 series to analyze long-term trends</h3>
+                            <br/> -->
+                            <!-- <p>Placeholder for Line Chart</p>
+                        </div> -->
+                        <div class="row">
+                            <div id="line-chart">
+                                <div id="area-datetime"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <h3>Summary Statistics</h3>
+                        </div>
+                        <div class="row">
+                            <div id="sumstats1-table-area" class="">
+                                <table id="sumstats1-table" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="background-color: white" class="table-head">Series</th>
+                                            <th style="background-color: white" class="table-head">Start Value</th>
+                                            <th style="background-color: white" class="table-head">End Value</th>
+                                            <th style="background-color: white" class="table-head">Change</th>
+                                            <th style="background-color: white" class="table-head">Percent Change</th>
+                                            <th style="background-color: white" class="table-head">Min</th>
+                                            <th style="background-color: white" class="table-head">Max</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sumstats-table-1">
+                  
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="sumstats2-table-area" class="">
+                                <table id="sumstats2-table" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="background-color: white" class="table-head">Series</th>
+                                            <th style="background-color: white" class="table-head">Average Change</th>
+                                            <th style="background-color: white" class="table-head">Change Variance</th>
+                                            <th style="background-color: white" class="table-head">Change Std Dev</th>
+                                            <th style="background-color: white" class="table-head">Avg % Change</th>
+                                            <th style="background-color: white" class="table-head">% Change Variance</th>
+                                            <th style="background-color: white" class="table-head">% Change Std Dev</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sumstats-table-2">
+                  
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </br>
+                </br>
+                <div class="row">
+                    <!-- TABLE GOES HERE -->
+                    <div class="col-md-2">
+                        <div class="row">
+                            <h3>Select Series:</h3>
+                        </div>
+                    </br>
+                        <div class="row">
+                            <ul class="dropdown-data-selectors">
+                                <li>
+                                    <div class="well">
+                                        <h5>Series 1:    <select id="selDataset1"></select></h5>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="well">
+                                        <h5>Series 2:    <select id="selDataset2"></option></select></h5>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="well">
+                                        <h5>Series 3:    <select id="selDataset3" selected="3"></select></h5>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="well">
+                                        <h5>Series 4:    <select id="selDataset4" selected="4"></select></h5>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="well">
+                                        <h5>Series 5:    <select id="selDataset5" selected="5"></select></h5>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> <!--ends selection table column -->
+                    <div class="col-md-10">
+                        <div id="selection-table-area" class="">
+                            <table id="selection-table" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="background-color: white" class="table-head">Index</th>
+                                        <th style="background-color: white" class="table-head">Series Name</th>
+                                        <th style="background-color: white" class="table-head">Units</th>
+                                        <th style="background-color: white" class="table-head">Interval</th>
+                                        <th style="background-color: white" class="table-head">Start Date</th>
+                                        <th style="background-color: white" class="table-head">End Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="selection-table-body">
+              
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!--ends container row for selection table -->
+            </div> <!--ends all line chart elements container column -->
+        </div> <!--ends all line chart elements row -->
+        </br>
+        </br>
+        </br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <!-- <div class="col-md-3"> -->
+                        <h2>Compare Two Series</h2>
+                    <!-- </div> -->
+                    <!-- <div class="col-md-9"></div> -->
+                </div>
+                </br>
+                <!-- </br> -->
+                <div class="row">
+                    <p>Use the dropdown menus to the right of the scatter plot to select two series to compare.  Like above,
+                        the numbers in the dropdowns are the index numbers of different series that can be found in the index table at 
+                        the bottom of the page.  Additionally, you can select "change" or "percent change" to examine how the selected
+                    series changes from interval to interval</p>
+                        
+                        <p>The gauge will display the correlation coefficient between the two series, as well as the R^2 score which represents
+                            how much of the variance in variable 2 can be accounted for by variable 1.</p>
+
+                        <p>Also similar to above, the user may zoom in on a selection of the two series, and the correlation and R^2 will re-calculate.
+                    </p>
+                </div>
+                <div class="row">     
+                    <div class="col-md-7">
+                        <!-- <div class="row">
+                            <h3>Compare Two Series</h3>
+                        </div> -->
+                        <div class="row">
+                            <div id="scatter"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                        </br>
+                            <div class="col-md-3">
+                                <div class="well">
+                                    <h5>Scatter 1:    <select id="selDataset6"></select></h5>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="well">
+                                    <h5>Calc:    <select id="selDataset8"></select></h5>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="well">
+                                    <h5>Lag:    <select id="selDataset10"></select></h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="well">
+                                    <h5>Scatter 2:    <select id="selDataset7"></select></h5>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="well">
+                                    <h5>Calc:    <select id="selDataset9"></select></h5>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="well">
+                                    <h5>Lag:    <select id="selDataset11"></select></h5>
+                                </div>
+                            </div>
+                        </div>
+                        </br>
+                        <div class="row">
+                            <h3>Correlation of Scatter</h3>
+                        </div>
+                        </br>
+                        <div class="row">
+                            <div id="gauge"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </br>
+    </br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <h1>FORECASTING MODELS</h1>
+                        </div>
+                    </div>
+                </div>
+            </br>
+                <div class="row">
+                    <p>There are three models below that will forecast, respectively, Consumer Price Index (CPI), Personal Consumption Expenditures (PCE),
+                        and GDP Deflator.</p>
+
+                    <p>Each model contains 10 inputs for predicting the relevant measure of inflation.  The user can input a forecast for any and all predictor variables, or simply play "what if" to see what happens if a certain variable changes by any amount.  Any variables that are not input by the user will default to the "most recent" value reported in the table.  Once values are input, click the button to forcast inflation!</p>
+                </div>
+                <div class="row">
+                    <h2>Consumer Price Index Forecast Based on User Inputs</h2>
+                </div>
+                <div class="row">
+                    <h3 id="current-cpi"></h3>
+                </div>
+                <div class="row"> <!--starts row for cpi user entry table -->
+                    <div id="cpi-model-table-area" class="">
+                        <table id="cpi-model-table" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="background-color: white" class="table-head">Most Recent</th>
+                                    <th style="background-color: white" class="table-head">M2</th>
+                                    <th style="background-color: white" class="table-head">Nominal GDP/Capita</th>
+                                    <th style="background-color: white" class="table-head">Government Expenditures</th>
+                                    <th style="background-color: white" class="table-head">Commerical & Industrial Loans</th>
+                                    <th style="background-color: white" class="table-head">Consumer Loans</th>
+                                    <th style="background-color: white" class="table-head">Real Output/Hour</th>
+                                    <th style="background-color: white" class="table-head">Real Disposable Personal Income</th>
+                                    <th style="background-color: white" class="table-head">Corporate Profits After Tax</th>
+                                    <th style="background-color: white" class="table-head">Imports</th>
+                                    <th style="background-color: white" class="table-head">Real Gross Domestic Private Investment</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cpi-model-table">
+                                <tr id="cpi-value-row">
+                                    <td style="background-color: white" class="table-head">Value</td>
+                                </tr>
+                                <tr id="cpi-pct-row">
+                                    <td style="background-color: white" class="table-head">Percent Change</td>
+                                </tr>                                
+                                <tr>
+                                    <td style="background-color: fuchsia">User Input Values</td>
+                                    <td><input class="form-control" id="cpi-m2-val" type="text"placeholder="User Value"></td>
+                                    <td><input class="form-control" id="cpi-gdp-val" type="text" placeholder="User Value"></td>
+                                    <td><input class="form-control" id="cpi-ge-val" type="text" placeholder="User Value"></td>
+                                    <td><input class="form-control" id="cpi-comln-val" type="text" placeholder="User Value"></td>
+                                    <td><input class="form-control" id="cpi-conln-val" type="text" placeholder="User Value"></td>
+                                    <td><input class="form-control" id="cpi-roh-val" type="text" placeholder="User Value"></td>
+                                    <td><input class="form-control" id="cpi-rdi-val" type="text" placeholder="User Value"></td>
+                                    <td><input class="form-control" id="cpi-cprof-val" type="text" placeholder="User Value"></td>
+                                    <td><input class="form-control" id="cpi-imp-val" type="text" placeholder="User Value"></td>
+                                    <td><input class="form-control" id="cpi-inv-val" type="text" placeholder="User Value"></td>
+                                </tr>
+                                <!-- <tr>
+                                    <td style="background-color: fuchsia">User Input % Change</td>
+                                    <td><input class="form-control" id="cpi-m2-pct" type="text" ></td>
+                                    <td><input class="form-control" id="cpi-gdp-pct" type="text" placeholder="User Percent"></td>
+                                    <td><input class="form-control" id="cpi-ge-pct" type="text" placeholder="User Percent"></td>
+                                    <td><input class="form-control" id="cpi-comln-pct" type="text" placeholder="User Percent"></td>
+                                    <td><input class="form-control" id="cpi-conln-pct" type="text" placeholder="User Percent"></td>
+                                    <td><input class="form-control" id="cpi-roh-pct" type="text" placeholder="User Percent"></td>
+                                    <td><input class="form-control" id="cpi-rdi-pct" type="text" placeholder="User Percent"></td>
+                                    <td><input class="form-control" id="cpi-cprof-pct" type="text" placeholder="User Percent"></td>
+                                    <td><input class="form-control" id="cpi-imp-pct" type="text" placeholder="User Percent"></td>
+                                    <td><input class="form-control" id="cpi-inv-pct" type="text" placeholder="User Percent"></td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                                <button id="cpi-btn" type="button" class="btn btn-default">Forecast CPI</button>
+                                <h3 id="forecasted-cpi"></h3>
+                        </div>
+                    </div>
+                </div>
+            </br>
+            </br>
+        <div class="row">
+            <h2>Personal Consumption Expenditures Forecast Based on User Inputs</h2>
+        </div>
+        <div class="row">
+            <h3 id="current-pce"></h3>
+        </div>
+        <div class="row"> <!--starts row for pce user entry table -->
+            <div id="pce-model-table-area" class="">
+                <table id="pce-model-table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="background-color: white" class="table-head">Most Recent</th>
+                            <th style="background-color: white" class="table-head">M2</th>
+                            <th style="background-color: white" class="table-head">Nominal GDP/Capita</th>
+                            <th style="background-color: white" class="table-head">Government Expenditures</th>
+                            <th style="background-color: white" class="table-head">Government Transfer Payments</th>
+                            <th style="background-color: white" class="table-head">Commerical & Industrial Loans</th>
+                            <th style="background-color: white" class="table-head">Consumer Loans</th>
+                            <th style="background-color: white" class="table-head">Real Output/Hour</th>
+                            <th style="background-color: white" class="table-head">Real Disposable Personal Income</th>
+                            <th style="background-color: white" class="table-head">Median House Sale Price</th>
+                            <th style="background-color: white" class="table-head">Real Gross Domestic Private Investment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pce-model-table">
+                        <tr id="pce-value-row">
+                            <td style="background-color: white" class="table-head">Value</td>
+                        </tr>
+                        <tr id="pce-pct-row">
+                            <td style="background-color: white" class="table-head">Percent Change</td>
+                        </tr>                                
+                        <tr>
+                            <td style="background-color: fuchsia">User Input Values</td>
+                            <td><input class="form-control" id="pce-m2-val" type="text"placeholder="User Value"></td>
+                            <td><input class="form-control" id="pce-gdp-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="pce-ge-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="pce-gtp-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="pce-comln-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="pce-conln-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="pce-roh-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="pce-incom-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="pce-house-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="pce-inv-val" type="text" placeholder="User Value"></td>
+                        </tr>
+                        <!-- <tr>
+                            <td style="background-color: fuchsia">User Input % Change</td>
+                            <td><input class="form-control" id="pce-m2-pct" type="text" ></td>
+                            <td><input class="form-control" id="pce-gdp-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="pce-ge-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="pce-gtp-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="pce-comln-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="pce-conln-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="pce-roh-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="pce-incom-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="pce-house-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="pce-inv-pct" type="text" placeholder="User Percent"></td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                        <button id="pce-btn" type="button" class="btn btn-default">Forecast PCE</button>
+                        <h3 id="forecasted-pce"></h3>
+                </div>
+            </div>
+        </div>
+        </br>
+        </br>
+        <div class="row">
+            <h2>GDP Deflator Forecast Based on User Inputs</h2>
+        </div>
+        <div class="row">
+            <h3 id="current-deflator"></h3>
+        </div>
+        <div class="row"> <!--starts row for deflator user entry table -->
+            <div id="deflator-model-table-area" class="">
+                <table id="deflator-model-table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="background-color: white" class="table-head">Most Recent</th>
+                            <th style="background-color: white" class="table-head">M2</th>
+                            <th style="background-color: white" class="table-head">Real GDP</th>
+                            <th style="background-color: white" class="table-head">Government Expenditures</th>
+                            <th style="background-color: white" class="table-head">Commerical & Industrial Loans</th>
+                            <th style="background-color: white" class="table-head">Real Output/Hour</th>
+                            <th style="background-color: white" class="table-head">Real Disposable Personal Income</th>
+                            <th style="background-color: white" class="table-head">Gross Private Saving</th>
+                            <th style="background-color: white" class="table-head">Median House Sale Price</th>
+                            <th style="background-color: white" class="table-head">Real Imports</th>
+                            <th style="background-color: white" class="table-head">Real Gross Domestic Private Investment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deflator-model-table">
+                        <tr id="deflator-value-row">
+                            <td style="background-color: white" class="table-head">Value</td>
+                        </tr>
+                        <tr id="deflator-pct-row">
+                            <td style="background-color: white" class="table-head">Percent Change</td>
+                        </tr>                                
+                        <tr>
+                            <td style="background-color: fuchsia">User Input Values</td>
+                            <td><input class="form-control" id="deflator-m2-val" type="text"placeholder="User Value"></td>
+                            <td><input class="form-control" id="deflator-rgdp-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="deflator-ge-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="deflator-comln-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="deflator-roh-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="deflator-incom-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="deflator-sav-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="deflator-house-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="deflator-rimp-val" type="text" placeholder="User Value"></td>
+                            <td><input class="form-control" id="deflator-inv-val" type="text" placeholder="User Value"></td>
+                        </tr>
+                        <!-- <tr>
+                            <td style="background-color: fuchsia">User Input % Change</td>
+                            <td><input class="form-control" id="deflator-m2-pct" type="text" ></td>
+                            <td><input class="form-control" id="deflator-rgdp-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="deflator-ge-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="deflator-comln-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="deflator-roh-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="deflator-incom-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="deflator-sav-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="deflator-house-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="deflator-rimp-pct" type="text" placeholder="User Percent"></td>
+                            <td><input class="form-control" id="deflator-inv-pct" type="text" placeholder="User Percent"></td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                        <button id="deflator-btn" type="button" class="btn btn-default">Forecast GDP Deflator</button>
+                        <h3 id="forecasted-deflator"></h3>
+                </div>
+            </div>
+        </div>
+                <!-- <div class="row">
+                    placeholder for current cpi and forecasted cpi (add multiple columns)
+                </div> -->
+            </div> <!-- ends large container column for 4 models -->
+        </div> <!--ends large container row for 4 models -->
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h1>Series Index Table</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div id="index-table-area" class="">
+                    <table id="index-table" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="background-color: white" class="table-head">Index</th>
+                                <th style="background-color: white" class="table-head">Series Name</th>
+                                <th style="background-color: white" class="table-head">Units</th>
+                                <th style="background-color: white" class="table-head">Interval</th>
+                                <th style="background-color: white" class="table-head">Start</th>
+                                <th style="background-color: white" class="table-head">End</th>
+                            </tr>
+                        </thead>
+                        <tbody id="index-table">
+      
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>    
+    
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/react-apexcharts"></script> -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+    <script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script type="text/javascript" src="../static/logic.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
+
+</body>
+</html>
