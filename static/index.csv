@@ -1,124 +1,124 @@
-index,series_name,units,interval,start,end
-1,M1 Money Supply,Billions Seasonally adjusted,Monthly,1/1/1959,2/1/2021
-2,M2 Money Supply,Billions Seasonally adjusted,Monthly,1/1/1959,2/1/2021
-3,Non M1 Components of M2,Billions,Weekly,1/6/1975,2/1/2021
-4,M1 Velocity,Ratio_Nominal GDP: Quarterly Average M1 Stock,Quarterly,1/1/1959,10/1/2020
-5,M2 Velocity,Ratio_Nominal GDP: Quarterly Average M2 Stock,Quarterly,1/1/1959,10/1/2020
-6,GDP Nominal,Billions,Quarterly,1/1/1947,10/1/2020
-7,GDP Nominal Per Capita,Dollars,Quarterly,1/1/1947,10/1/2020
-8,GDP Real,Billions 2012 Dollars,Quarterly,1/1/1947,10/1/2020
-9,GDP Real Per Capita,2012 Dollars,Quarterly,1/1/1947,10/1/2020
-10,GDP Price Deflator,Index 2012=100,Quarterly,1/1/1947,10/1/2020
-11,GNP,Billions,Quarterly,1/1/1947,10/1/2020
-12,Total Federal Debt Absolute,Millions,Quarterly,1/1/1966,10/1/2020
-13,Public Debt as Percent of GDP,Percent,Quarterly,1/1/1966,7/1/2020
-14,Government Total Expenditures,Billions,Quarterly,1/1/1960,10/1/2020
-15,Federal Government Surplus or Deficit,Billions,Quarterly,7/1/1959,10/1/2019
-16,Federal Deficit or Surplus,Millions; Changes from 6/30 to 9/30 in 1977,Annual,6/30/1901,9/30/2020
-17,Debt held by Reserve banks,Billions,Quarterly,1/1/1970,7/1/2020
-18,Federal Debt Held By the Public,Millions,Quarterly,1/1/1970,10/1/2020
-19,Tax Receipts from Taxes on Corporate Income,Billions,Quarterly,1/1/1947,10/1/2020
-20,Government Transfer Payments,Billions,Quarterly,1/1/1947,10/1/2020
-21,Effective Federal Funds Rate,Percent,Monthly,7/1/1954,2/1/2021
-22,Federal Reserve Assets,Millions,Weekly,12/18/2002,4/14/2021
-23,Total Fed Assets,Millions,Weekly,12/18/2002,4/14/2021
-24,Assets: Treasuries held by Federal Reserve,Millions,Weekly,12/18/2002,4/14/2021
-25,Assets: Mortgage Backed Securities,Millions,Weekly,12/18/2002,4/14/2021
-26,Liabilities: Non-reserve deposits with FR banks: Treasury General Account,Billions,Weekly,1/8/1986,4/14/2021
-27,St. Louis Fed Financial Stress Index,Index 0 is normal,Weekly,12/31/1993,4/9/2021
-28,Reserve Balances of Depository Institutions,Billions,Monthly,1/1/1959,2/1/2021
-29,Cash assets All Commercial Banks,Billions,Weekly,8/1/1973,4/7/2021
-30,Total Assets All Commercial Banks,Billions,Weekly,8/1/1973,3/31/2021
-31,Bank Credit: All Commercial Banks,Billions,Weekly,8/1/1973,3/31/2021
-32,Deposits All Commercial banks,Billions,Weekly,8/1/1973,3/31/2021
-33,Commercial and Industrial Loans All banks,Billions,Monthly,1/1/1947,3/1/2021
-34,Consumer Loans All Commercial Banks,Billions,Monthly,1/1/1947,3/1/2021
-35,30 year fixed rate mortgage,Percent,Weekly,1/1/1947,3/1/2021
-36,Gold Fixing Price,Dollars per Troy Ounce,Daily,4/1/1968,4/16/2021
-37,Silver Fixing Price,Dollars per troy ounce,Daily,1/1/1950,12/31/2020
-38,Dow Jones Industrial Average Close,Index,Daily,12/31/1970,4/16/2021
-39,NASDAQ Close,Index,Daily,2/5/1971,4/16/2021
-40,S&P 500 Close,Index,Daily,1/3/1978,4/16/2021
-41,Stock Market Capitalization to GDP,Percent,Annual,1/1/1996,1/1/2017
-42,Crude Oil Prices,Dollars Per Barrel,Daily,1/2/1986,4/12/2021
-43,Producer Price Index by Commodity,Index 1982=100,Monthly,1/1/1913,3/1/2021
-44,Producer Price Index Total Manufacturing,Index 1984=100,Monthly,12/1/1984,3/1/2021
-45,PPI Building and Material Supplies,Index 2003=100,Monthly,12/1/2003,3/1/2021
-46,PPI Metals,Index 1982=100,Monthly,6/1/1982,3/1/2021
-47,Global Price of Copper,Dollars per metric ton,Monthly,1/1/1990,2/1/2021
-48,PPI Iron and Steel,Index 1982=100,Monthly,1/1/1926,3/1/2021
-49,Global Price of Iron,Dollars per ton,Monthly,1/1/1990,2/1/2021
-50,PPI Steel Wire Stainless Steel,Index 2010=100,Monthly,12/1/2010,3/1/2021
-51,Global Price of Aluminum,Dollars per ton,Monthly,1/1/1990,2/1/2021
-52,PPI Lumber and Wood,Index 1982=100,Monthly,1/1/1947,3/1/2021
-53,PPI Lumber,Index 1982=100,Monthly,1/1/1926,2/1/2021
-54,PPI Wood pulp,Index 1982=100,Monthly,1/1/1926,3/1/2021
-55,PPI Cement and Concrete,Index 2003=100,Monthly,12/1/2003,3/1/2021
-56,PPI Plastics and Resins,Index 1980=100,Monthly,6/1/1976,3/1/2021
-57,Global Price of Rubber,Cents per pound,Monthly,1/1/1990,2/1/2021
-58,PPI Semiconductors and Electronics,Index 1984=100,Monthly,12/1/1984,3/1/2021
-59,Global Price of Corn,Dollars per ton,Monthly,1/1/1990,2/1/2021
-60,Global Price of Wheat,Dollars per ton,Quarterly,1/1/1990,10/1/2020
-61,PPI Freight,Index 2003=100,Monthly,12/1/2003,3/1/2021
-62,Population,Thousands,Monthly,1/1/1959,2/1/2021
-63,Economic Policy Uncertainty,Index Based on Newspapers,Daily,1/1/1985,4/15/2021
-64,University of Michigan Consumer Sentiment,Index 1966=100,Monthly,11/1/1952,2/1/2021
-65,University of Michigan Inflation Expectation,Percent,Monthly,1/1/1978,1/1/2021
-66,Expected Inflation 5 Years from Today,Percent,Daily,1/2/2003,4/15/2021
-67,10 Year Breakeven Inflation Rate,Percent Derived from 10Y Treasury Maturity,Daily,1/2/2003,4/15/2021
-68,Inflation Consumer Prices for US,Percent,Annual,1/1/1960,1/1/2019
-69,Unemployment,Percent,Monthly,1/1/1948,3/1/2021
-70,Job Openings Total Nonfarm,Thousands,Monthly,12/1/2000,2/1/2021
-71,Labor Force Participation Rate,Percent,Monthly,1/1/1948,3/1/2021
-72,Real Output per Hour,Index 2012=100,Quarterly,1/1/1947,10/1/2020
-73,Real Median Household Income,Dollars,Annual,1/1/1984,1/1/2019
-74,Average Hourly Earnings,Dollars per hour,Monthly,3/1/2006,3/1/2021
-75,Real Disposable Personal Income,Billions of 2012 dollars,Monthly,1/1/1959,2/1/2021
-76,Total net worth held by 1%,Millions,Quarterly,7/1/1989,10/1/2020
-77,Share of Net Worth held by top 1%,Percent,Quarterly,7/1/1989,10/1/2020
-78,Net Worth Held by bottom 50%,Millions,Quarterly,7/1/1989,10/1/2020
-79,Corporate Profits After Tax,Billions,Quarterly,1/1/1947,10/1/2020
-80,Debt as % of Corporate Equities,Percent,Quarterly,10/1/1945,10/1/2020
-81,Personal Saving,Billions,Monthy,1/1/1959,2/1/2021
-82,Personal Savings Rate,Percent of disposable income,Monthly,1/1/1959,2/1/2021
-83,Gross Private Saving,Billions,Quarterly,1/1/1947,10/1/2020
-84,Household Debt to GDP,Ratio,Quarterly,1/1/2005,7/1/2020
-85,Household Debt Service Payments as pct of Income,Percent,Quarterly,1/1/1980,10/1/2020
-86,Delinquency Rate Consumer Loans,Percent,Quarterly,1/1/1987,10/1/2020
-87,Delinquency Rate on Credit Cards,Percent,Quarterly,1/1/1991,10/1/2020
-88,Homeownership Rate,Percent,Quarterly,1/1/1965,10/1/2020
-89,Median House Sales Price,Dollars,Quarterly,1/1/1963,10/1/2020
-90,Real Residential Property Prices,Index 2010=100,Quarterly,1/1/1970,7/1/2020
-91,Delinquency Rate on Single-Family Mortgages,Percent,Quarterly,1/1/1991,10/1/2020
-92,Rental Vacancy Rate,Percent,Quarterly,10/1/1956,10/1/2020
-93,PCE Index,Index 2012=100,Monthly,1/1/1959,2/1/2021
-94,Personal Consumption Expenditures,Billions,Monthly,1/1/1959,2/1/2021
-95,Real PCE,Billions of 2012 dollars,Monthly,1/1/2002,2/1/2021
-96,PCE Durable Goods,Billions,Monthly,1/1/1959,2/1/2021
-97,Real PCE Durable Goods,Billions 2012 Dollars,Monthly,1/1/2002,2/1/2021
-98,PCE Nondurable Goods,Billions,Monthly,1/1/1959,2/1/2021
-99,PCE Services,Billions,Quarterly,1/1/1947,10/1/2020
-100,CPI,1982-84 = 100,Monthly,1/1/1947,2/1/2021
-101,CPI Core - No Food and Energy,Index 1982=100,Monthly,1/1/1957,3/1/2021
-102,CPI for Urban Consumers,Index 1982=100,Monthly,1/1/1913,3/1/2021
-103,CPI Housing in Cities,Index 1982=100,Monthly,1/1/1967,3/1/2021
-104,CPI Rent of Primary Resdence,Index 1982=100,Monthly,12/1/1914,3/1/2021
-105,CPI New Vehicles,Index 1982=100,Monthly,3/1/1947,3/1/2021
-106,CPI Urban Transportation,Index 1982=100,Monthly,1/1/1947,3/1/2021
-107,CPI Medical Care,Index 1982=100,Monthly,1/1/1947,3/1/2021
-108,CPI Food and Beverage,Index 1982=100,Monthly,1/1/1967,3/1/2021
-109,CPI Eggs,Dollars per dozen,Monthly,1/1/1980,3/1/2021
-110,CPI for Apparel in Cities,Index 1982=100,Monthly,1/1/1947,3/1/2021
-111,E-Commerce Retail Sales as Pct of total sales,Percent,Quarterly,10/1/1999,10/1/2020
-112,Net Exports of Goods and Services,Billions,Quarterly,1/1/1947,10/1/2020
-113,Net Exports as Percent of GDP,Percent,Annual,1/1/1929,1/1/2020
-114,Trade Balance: Goods and services,Millions,Monthly,1/1/1992,2/1/2021
-115,Imports of Goods and Services,Billions,Quarterly,1/1/1947,10/1/2020
-116,Real Imports of Goods and Services,Billions 2012 Dollars,Quarterly,1/1/1947,10/1/2020
-117,Import Price Index All Commodities,Index 2000=100,Monthly,9/1/1982,3/1/2021
-118,Imports from China,Millions,Monthly,1/1/1985,2/1/2021
-119,CPI: All Items for India,Index 2015=100,Monthly,1/1/1960,2/1/2021
-120,Gross Domestic Private Investment,Billions,Quarterly,1/1/1947,10/1/2020
-121,Real Gross Domestic Private Investment,Billions,Quarterly,1/1/1947,10/1/2020
-122,Total Construction Spending,Millions annual rate,Monthly,1/1/1993,2/1/2021
-123,Housing Starts,Thousands,Monthly,1/1/1959,2/1/2021
+index,series_name,units,interval,start,Source
+1,M1 Money Supply,Billions Seasonally adjusted,Monthly,1/1/1959,M1SL
+2,M2 Money Supply,Billions Seasonally adjusted,Monthly,1/1/1959,M2SL
+3,Non M1 Components of M2,Billions,Weekly,1/6/1975,NONM1
+4,M1 Velocity,Ratio_Nominal GDP: Quarterly Average M1 Stock,Quarterly,1/1/1959,M1V
+5,M2 Velocity,Ratio_Nominal GDP: Quarterly Average M2 Stock,Quarterly,1/1/1959,M2V
+6,GDP,Billions,Quarterly,1/1/1947,GDP
+7,Nominal GDP Per Capita,Dollars,Quarterly,1/1/1947,A939RC0Q052SBEA
+8,Real GDP,Billions 2012 Dollars,Quarterly,1/1/1947,GDPC1
+9,Real GDP Per Capita,2012 Dollars,Quarterly,1/1/1947,A939RX0Q048SBEA
+10,GDP Deflator,Index 2012=100,Quarterly,1/1/1947,GDPDEF
+11,GNP,Billions,Quarterly,1/1/1947,GNP
+12,Total Federal Debt Absolute,Millions,Quarterly,1/1/1966,GFDEBTN
+13,Public Debt as Percent of GDP,Percent,Quarterly,1/1/1966,GFDEGDQ188S
+14,Government Total Expenditures,Billions,Quarterly,1/1/1960,W068RCQ027SBEA
+15,Federal Government Surplus or Deficit,Billions,Quarterly,7/1/1959,M318501Q027NBEA
+16,Federal Deficit or Surplus,Millions; Changes from 6/30 to 9/30 in 1977,Annual,6/30/1901,FYFSD
+17,Debt Held by Reserve Banks,Billions,Quarterly,1/1/1970,FDHBFRBN
+18,Federal Debt Held By the Public,Millions,Quarterly,1/1/1970,FYGFDPUN
+19,Tax Receipts from Taxes on Corporate Income,Billions,Quarterly,1/1/1947,B075RC1Q027SBEA
+20,Government Transfer Payments,Billions,Quarterly,1/1/1947,B087RC1Q027SBEA
+21,Effective Federal Funds Rate,Percent,Monthly,7/1/1954,FEDFUNDS
+22,Federal Reserve Assets,Millions,Weekly,12/18/2002,WALCL
+23,Total Fed Assets,Millions,Weekly,12/18/2002,RESPPANWW
+24,Assets: Treasuries Held by Federal Reserve,Millions,Weekly,12/18/2002,TREAST
+25,Assets: Mortgage Backed Securities Held by Fed,Millions,Weekly,12/18/2002,WSHOMCB
+26,Liabilities: Non-Reserve Deposits with FR Banks,Billions,Weekly,1/8/1986,WTREGEN
+27,St. Louis Fed Financial Stress Index,Index 0 is normal,Weekly,12/31/1993,STLFSI2
+28,Reserve Balances of Depository Institutions,Billions,Monthly,1/1/1959,TOTRESNS
+29,Cash assets All Commercial Banks,Billions,Weekly,8/1/1973,CASACBW027SBOG
+30,Total Assets All Commercial Banks,Billions,Weekly,8/1/1973,TLAACBW027SBOG
+31,Bank Credit All Commercial Banks,Billions,Weekly,8/1/1973,TOTBKCR
+32,Deposits All Commercial banks,Billions,Weekly,8/1/1973,DPSACBW027SBOG
+33,Commercial and Industrial Loans All Commercial Banks,Billions,Monthly,1/1/1947,BUSLOANS
+34,Consumer Loans All Commercial Banks,Billions,Monthly,1/1/1947,CONSUMER
+35,30 Year Gixed Rate Mortgage,Percent,Weekly,1/1/1947,MORTGAGE30US
+36,Gold Fixing Price,Dollars per Troy Ounce,Daily,4/1/1968,Wall Street Journal
+37,Silver Fixing Price,Dollars per troy ounce,Daily,1/1/1950,SLVPRUSD
+38,Dow Jones Industrial Average Close,Index,Daily,12/31/1970,Wall Street Journal
+39,NASDAQ Close,Index,Daily,2/5/1971,Wall Street Journal
+40,S&P 500 Close,Index,Daily,1/3/1978,Wall Street Journal
+41,Stock Market Capitalization to GDP,Percent,Annual,1/1/1996,DDDM01USA156NWDB
+42,Crude Oil Price Per Barrel,Dollars Per Barrel,Daily,1/2/1986,DCOILWTICO
+43,PPI All Commodities,Index 1982=100,Monthly,1/1/1913,PPIACO
+44,PPI Total Manufacturing,Index 1984=100,Monthly,12/1/1984,PCUOMFGOMFG
+45,PPI Building Materials and Supplies,Index 2003=100,Monthly,12/1/2003,PCU44414441
+46,PPI Metals,Index 1982=100,Monthly,6/1/1982,WPU101707
+47,Global Price of Copper,Dollars per metric ton,Monthly,1/1/1990,PCOPPUSDM
+48,PPI Iron and Steel,Index 1982=100,Monthly,1/1/1926,WPU101
+49,Global Price of Iron,Dollars per ton,Monthly,1/1/1990,PIORECRUSDM
+50,PPI Steel Wire Stainless Steel,Index 2010=100,Monthly,12/1/2010,WPU10170502
+51,Global Price of Aluminum,Dollars per ton,Monthly,1/1/1990,PALUMUSDM
+52,PPI Lumber and Wood,Index 1982=100,Monthly,1/1/1947,WPU0811
+53,PPI Lumber,Index 1982=100,Monthly,1/1/1926,WPU081
+54,PPI Wood pulp,Index 1982=100,Monthly,1/1/1926,WPU0911
+55,PPI Cement and Concrete,Index 2003=100,Monthly,12/1/2003,PCU32733273
+56,PPI Plastics and Resins,Index 1980=100,Monthly,6/1/1976,PCU325211325211
+57,Global Price of Rubber,Cents per pound,Monthly,1/1/1990,PRUBBUSDM
+58,PPI Semiconductors and Electronics,Index 1984=100,Monthly,12/1/1984,PCU33443344
+59,Global Price of Corn,Dollars per ton,Monthly,1/1/1990,PMAIZMTUSDM
+60,Global Price of Wheat,Dollars per ton,Quarterly,1/1/1990,PWHEAMTUSDQ
+61,PPI Freight,Index 2003=100,Monthly,12/1/2003,PCU484121484121
+62,Population,Thousands,Monthly,1/1/1959,POPTHM
+63,Economic Policy Uncertainty,Index Based on Newspapers,Daily,1/1/1985,USEPUINDXD
+64,UM Consumer Sentiment,Index 1966=100,Monthly,11/1/1952,UMCSENT
+65,UM Inflation Expectation,Percent,Monthly,1/1/1978,MICH
+66,Expected Inflation 5 Years from Today,Percent,Daily,1/2/2003,T5YIFR
+67,10 Year Breakeven Inflation,Percent Derived from 10Y Treasury Maturity,Daily,1/2/2003,T10YIE
+68,Inflation Consumer Prices for US,Percent,Annual,1/1/1960,FPCPITOTLZGUSA
+69,Unemployment Rate,Percent,Monthly,1/1/1948,UNRATE
+70,Job Openings Total Nonfarm,Thousands,Monthly,12/1/2000,JTSJOL
+71,Labor Force Participation Rate,Percent,Monthly,1/1/1948,CIVPART
+72,Real Output per Hour,Index 2012=100,Quarterly,1/1/1947,OPHNFB
+73,Real Median Household Income,Dollars,Annual,1/1/1984,MEHOINUSA672N
+74,Average Hourly Earnings,Dollars per hour,Monthly,3/1/2006,CES0500000003
+75,Real Disposable Personal Income,Billions of 2012 dollars,Monthly,1/1/1959,DSPIC96
+76,Total Net Worth Held by Top 1%,Millions,Quarterly,7/1/1989,WFRBLT01026
+77,Share of Net Worth Held by Top 1%,Percent,Quarterly,7/1/1989,WFRBST01134
+78,Net Worth Held by bottom 50%,Millions,Quarterly,7/1/1989,WFRBLB50107
+79,Corporate Profits After Tax,Billions,Quarterly,1/1/1947,CP
+80,Debt as Percent of Corporate Equities,Percent,Quarterly,10/1/1945,NCBCMDPMVCE
+81,Total Personal Saving,Billions,Monthy,1/1/1959,PMSAVE
+82,Personal Savings Rate,Percent of disposable income,Monthly,1/1/1959,PSAVERT
+83,Gross Private Saving,Billions,Quarterly,1/1/1947,GPSAVE
+84,Household Debt to GDP Ratio,Ratio,Quarterly,1/1/2005,HDTGPDUSQ163N
+85,Household Debt Service Payments as Percent of Income,Percent,Quarterly,1/1/1980,TDSP
+86,Delinquency Rate of Consumer Loans,Percent,Quarterly,1/1/1987,DRCLACBS
+87,Delinquency Rate on Credit Cards,Percent,Quarterly,1/1/1991,DRCCLACBS
+88,Homeownership Rate,Percent,Quarterly,1/1/1965,RHORUSQ156N
+89,Median House Sale Price,Dollars,Quarterly,1/1/1963,MSPUS
+90,Real Residential Property Price,Index 2010=100,Quarterly,1/1/1970,QUSR628BIS
+91,Delinquency Rate on Single-Family Mortgages,Percent,Quarterly,1/1/1991,DRSFRMACBS
+92,Rental Vacancy Rate,Percent,Quarterly,10/1/1956,RRVRUSQ156N
+93,PCE Index,Index 2012=100,Monthly,1/1/1959,PCEPI
+94,PCE,Billions,Monthly,1/1/1959,PCE
+95,Real PCE,Billions of 2012 dollars,Monthly,1/1/2002,PCEC96
+96,PCE Durable Goods,Billions,Monthly,1/1/1959,PCEDG
+97,Real PCE Durable Goods,Billions 2012 Dollars,Monthly,1/1/2002,PCEDGC96
+98,PCE Nondurable Goods,Billions,Monthly,1/1/1959,PCEND
+99,PCE Services,Billions,Quarterly,1/1/1947,PCESV
+100,CPI,1982-84 = 100,Monthly,1/1/1947,CPIAUCSL
+101,Core CPI,Index 1982=100,Monthly,1/1/1957,CPILFESL
+102,CPI for Urban Consumers,Index 1982=100,Monthly,1/1/1913,CUUR0000SA0R
+103,CPI Housing in Cities,Index 1982=100,Monthly,1/1/1967,CPIHOSNS
+104,CPI Rent of Primary Resdence,Index 1982=100,Monthly,12/1/1914,CUUR0000SEHA
+105,CPI New Vehicles,Index 1982=100,Monthly,3/1/1947,CUUR0000SETA01
+106,CPI Urban Transportation,Index 1982=100,Monthly,1/1/1947,CPITRNSL
+107,CPI Medical,Index 1982=100,Monthly,1/1/1947,CPIMEDSL
+108,CPI Food and Beverage,Index 1982=100,Monthly,1/1/1967,CPIFABSL
+109,CPI Eggs,Dollars per dozen,Monthly,1/1/1980,APU0000708111
+110,CPI Apparel in Cities,Index 1982=100,Monthly,1/1/1947,CPIAPPSL
+111,E-Commerce Retail Sales as Percent of total sales,Percent,Quarterly,10/1/1999,ECOMPCTSA
+112,Net Exports,Billions,Quarterly,1/1/1947,NETEXP
+113,Net Exports as Percent of GDP,Percent,Annual,1/1/1929,A019RE1A156NBEA
+114,Trade Balance: Goods and Services,Millions,Monthly,1/1/1992,BOPGSTB
+115,Imports of Goods and Services,Billions,Quarterly,1/1/1947,IMPGS
+116,Real Imports of Goods and Services,Billions 2012 Dollars,Quarterly,1/1/1947,IMPGSC1
+117,Import Price Index of All Commodities,Index 2000=100,Monthly,9/1/1982,IR
+118,Imports from China,Millions,Monthly,1/1/1985,IMPCH
+119,CPI All Items for India,Index 2015=100,Monthly,1/1/1960,INDCPIALLMINMEI
+120,Gross Domestic Private Investment,Billions,Quarterly,1/1/1947,GPDI
+121,Real Gross Domestic Private Investment,Billions,Quarterly,1/1/1947,GPDIC1
+122,Total Construction Spending,Millions annual rate,Monthly,1/1/1993,TTLCONS
+123,Housing Starts,Thousands,Monthly,1/1/1959,HOUST

@@ -1,6 +1,7 @@
 // logic.js for Project 2:Inflation Research Tool for Economists
 
-var column_types = ['Main','Change','Pct_Change']
+var column_types = ['Change','Pct_Change','Main'];
+var bands_events = ['None','Presidents','Recessions','Events'];
 var dropdown1 = d3.select('#selDataset1');
 var dropdown2 = d3.select('#selDataset2');
 var dropdown3 = d3.select('#selDataset3');
@@ -12,6 +13,11 @@ var dropdown8 = d3.select('#selDataset8');
 var dropdown9 = d3.select('#selDataset9');
 var dropdown10 = d3.select('#selDataset10');
 var dropdown11 = d3.select('#selDataset11');
+var dropdown12 = d3.select('#selBandsEvents');
+var date_input1 = d3.select('#scatter-start');
+var date_input2 = d3.select('#scatter-end');
+date_input1.on("change",plotScatter);
+date_input2.on("change",plotScatter);
 dropdown1.on("change",renderApexLine);
 dropdown2.on("change",renderApexLine);
 dropdown3.on("change",renderApexLine);
@@ -23,6 +29,7 @@ dropdown8.on("change",plotScatter);
 dropdown9.on("change",plotScatter);
 dropdown10.on("change",plotScatter);
 dropdown11.on("change",plotScatter);
+dropdown12.on("change",chooseChartOptions);
 var sum_table1=d3.select("#sumstats-table-1");
 var sum_table2=d3.select("#sumstats-table-2");
 var selection_table=d3.select("#selection-table-body");
@@ -99,13 +106,15 @@ function init() {
         var index_dict=data;
         //populate dropdowns using json
         Object.entries(index_dict).forEach(([key,value]) => {
-            dropdown1.append('option').text(key).property('value',key)
-            dropdown2.append('option').text(key).property('value',key)
-            dropdown3.append('option').text(key).property('value',key)
-            dropdown4.append('option').text(key).property('value',key)
-            dropdown5.append('option').text(key).property('value',key)
-            dropdown6.append('option').text(key).property('value',key)
-            dropdown7.append('option').text(key).property('value',key)
+            // var str1 = key + ': ' + value
+            var str1 = key + ': ' + value[1]
+            dropdown1.append('option').text(str1).property('value',key)
+            dropdown2.append('option').text(str1).property('value',key)
+            dropdown3.append('option').text(str1).property('value',key)
+            dropdown4.append('option').text(str1).property('value',key)
+            dropdown5.append('option').text(str1).property('value',key)
+            dropdown6.append('option').text(str1).property('value',key)
+            dropdown7.append('option').text(str1).property('value',key)
             });
         var temp1 = "1";
         var selDataset1 = document.getElementById('selDataset1');
@@ -137,6 +146,8 @@ function init() {
         column_types.forEach((column_type) => {
             dropdown8.append('option').text(column_type).property('value',column_type)
             dropdown9.append('option').text(column_type).property('value',column_type)});
+        bands_events.forEach((band_type) => {
+            dropdown12.append('option').text(band_type).property('value',band_type)});
         var index_table_body=d3.select("#index-table");
         //populate index table using csv
         d3.csv("../static/index.csv").then(each_series => {
@@ -144,6 +155,7 @@ function init() {
             var index_row=index_table_body.append('tr');
             Object.entries(value).forEach(([keys,values]) => {
             index_row.append('td').text(values)})});
+        // chooseChartOptions();
         chart.render();
         scatter.render();
         populateModelTables();
@@ -193,7 +205,10 @@ var options = {
         beforeResetZoom: function(chartContext, opts) {
             renderApexLine()
         },
-        scrolled: function(chartContext, {xaxis}) {
+        scrolled: function(chartContext, {xaxis, yaxis}) {
+            // sum_table1.text("");
+            // sum_table2.text("");
+            // setTimeout(() => {sum_table1.text(""); sum_table2.text("");}, 2000);
             var zoomed_x_min=new Date(xaxis['min']);
             var zoomed_x_max=new Date(xaxis['max']);
             var min_month = zoomed_x_min.getMonth();
@@ -206,13 +221,30 @@ var options = {
             var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
             var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
             var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
+            // setTimeout(() => {},2000);
             // sum_table1.text("");
             // sum_table2.text("");
-            zoomSumChartUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);
-        }
+            setTimeout(() => {zoomSumChartUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);}, 2000);
+        },
+        beforResetZoom: function(chartContext,opts) {
+            renderApexLine()
+        },
     },
 },
-
+// annotations: {
+//     xaxis: [{
+//         x: new Date('20 Jan 2017').getTime(),
+//         x2: new Date('20 Jan 2020').getTime(),
+//         fillColor: 'red',
+//         opacity: 0.1
+//     },
+//         {
+//         x: new Date('20 Jan 2009').getTime(),
+//         x2: new Date('20 Jan 2017').getTime(),
+//         fillColor: 'blue',
+//         opacity: 0.1
+//     }]
+// },
 dataLabels: {
     enabled: false
 },
@@ -279,9 +311,16 @@ tooltip: {
 //     }]
 };
 
+// var band_or_event = dropdown12.property('value');
+// console.log(band_or_event);
+// if (band_or_event == 'None') {
+//     var chart_options = options1;
+//     console.log(chart_options);}
+//     else if (band_or_event == 'Presidents') {
+//         var chart_options = options2;};
 
-//CREATE AN INSTANCE OF THE LINE CHART
-var chart = new ApexCharts(document.querySelector("#area-datetime"), options);
+// //CREATE AN INSTANCE OF THE LINE CHART
+// var chart = new ApexCharts(document.querySelector("#area-datetime"), options);
 
 //POPULATE THE CPI MODEL TABLE AND FORECAST CPI
 function populateModelTables() {
@@ -631,11 +670,11 @@ function renderApexLine() {
     var xyz = 0
     d3.json("../static/column_index.json").then((indexed_columns)=> {
         var index_dict2=indexed_columns;
-        var chosen_column1=index_dict2[chosen_series1];
-        var chosen_column2=index_dict2[chosen_series2];
-        var chosen_column3=index_dict2[chosen_series3];
-        var chosen_column4=index_dict2[chosen_series4];
-        var chosen_column5=index_dict2[chosen_series5];
+        var chosen_column1=index_dict2[chosen_series1][0];
+        var chosen_column2=index_dict2[chosen_series2][0];
+        var chosen_column3=index_dict2[chosen_series3][0];
+        var chosen_column4=index_dict2[chosen_series4][0];
+        var chosen_column5=index_dict2[chosen_series5][0];
         d3.json("../static/column_table.json").then((columns)=> {
             var table_dict=columns;
             var chosen_table1=table_dict[chosen_column1];
@@ -754,15 +793,15 @@ var gauge_trace = [{
         //delta:{reference:10},
         gauge:{
             axis:{range:[0,1]},
-            steps: [{range:[0,.25], color:"maroon"},
-                    {range:[.25,.5], color:"orange"},
-                    {range:[.5,.75], color:"yellow"},
-                    {range:[.75,1], color:"green"}
+            steps: [{range:[0,.25], color:"Azure"},
+                    {range:[.25,.5], color:"LightSkyBlue"},
+                    {range:[.5,.75], color:"DodgerBlue"},
+                    {range:[.75,1], color:"MidnightBlue"}
                     ],
-            bar:{color:"fuchsia"}
+            bar:{color:"SlateGray"}
         }
     }];
-var gauge_layout = {width: 650, height: 430, margin:{t:0,b:0},paper_bgcolor:"darkgray"};
+var gauge_layout = {width: 600, height: 300, margin:{t:0,b:0},paper_bgcolor:"darkgray"};
 
 
 //DECLARE OPTIONS FOR SCATTER PLOT
@@ -821,7 +860,7 @@ var scatter_options = {
             var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
             var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
             var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
-            correlationUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);
+            // correlationUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);
         },
         beforeResetZoom: function(chartContext, opts) {
             plotScatter()
@@ -829,16 +868,17 @@ var scatter_options = {
     },
     },    
     tooltip: {
-        shared: false,
+        shared: true,
+        intersect:false,
         fillSeriesColor: true,
-        theme: 'dark',
-        x: {
-            format: 'MMM d, yyyy'
-        }
+        theme: 'dark'
+        // x: {
+        //     format: 'MMM d, yyyy'
+        // }
     },
     xaxis: {
-        type: 'datetime',
-        tickAmount: 10,
+        // type: 'xy',
+        tickAmount: 10
     },
     yaxis: [{
         labels: {
@@ -860,16 +900,28 @@ function plotScatter() {
     var chosen_series7=dropdown7.property('value');
     var chosen_series8=dropdown8.property('value');
     var chosen_series9=dropdown9.property('value');
+    var input_start_date=date_input1.property('value');
+    var input_end_date=date_input2.property('value');
+    // console.log(input_start_date);
+    // console.log(input_end_date);
+    if (input_start_date=="") {
+        var start_date = 'default';}
+        else {
+            var start_date = input_start_date};
+    if (input_end_date=="") {
+        var end_date = 'default';}
+        else {
+            var end_date = input_end_date};
     d3.json("../static/column_index.json").then((indexed_columns)=> {
         var index_dict3=indexed_columns;
-        var chosen_main6=index_dict3[chosen_series6];
-        var chosen_main7=index_dict3[chosen_series7];
+        var chosen_main6=index_dict3[chosen_series6][0];
+        var chosen_main7=index_dict3[chosen_series7][0];
         if (chosen_series8=='Main') {
-            var chosen_column6=index_dict3[chosen_series6];}
+            var chosen_column6=index_dict3[chosen_series6][0];}
             else if (chosen_series8=='Change') {
-                var chosen_column6=index_dict3[chosen_series6].concat('_change');}
+                var chosen_column6=index_dict3[chosen_series6][0].concat('_change');}
                 else {
-                    var chosen_column6=index_dict3[chosen_series6].concat('_Pct_Change');};
+                    var chosen_column6=index_dict3[chosen_series6][0].concat('_Pct_Change');};
         if (chosen_series9=='Main') {
             var chosen_column7=chosen_main7;}
             else if (chosen_series9=='Change') {
@@ -886,30 +938,33 @@ function plotScatter() {
             // console.log(`Chosen table`, chosen_table6);
             // console.log(`Chosen column`, chosen_column6);
             // console.log(chosen_table7);
-            d3.json(`http://127.0.0.1:5000/scatter_api/${chosen_table6}/${chosen_column6}`).then((return_dict)=>{
+            d3.json(`http://127.0.0.1:5000/scatter_api/${chosen_table6}/${chosen_column6}/${chosen_table7}/${chosen_column7}/${start_date}/${end_date}`).then((return_dict)=>{
                 // console.log(return_dict);
-                var no_xy = return_dict['no_xy'];
+                var no_xy = return_dict['scatter_values']
+                var corr_coef = return_dict['corr_coef']//['Values'];
+                // console.log(return_dict);
                 // console.log(no_xy);
-                d3.json(`http://127.0.0.1:5000/scatter_api/${chosen_table7}/${chosen_column7}`).then((return_dict)=>{
-                    var no_xy2 = return_dict['no_xy'];
+                // console.log(corr_coef)
+                // d3.json(`http://127.0.0.1:5000/scatter_api/${chosen_table7}/${chosen_column7}`).then((return_dict)=>{
+                //     var no_xy2 = return_dict['no_xy'];
                     // console.log(no_xy);
                     // console.log(no_xy2);
-                    d3.json(`http://127.0.0.1:5000/correlation/${chosen_table6}/${chosen_column6}/${chosen_table7}/${chosen_column7}`).then((corr_coef_dict) => {
-                        var corr_coef = corr_coef_dict['corr_coef'];
+                    // d3.json(`http://127.0.0.1:5000/correlation/${chosen_table6}/${chosen_column6}/${chosen_table7}/${chosen_column7}`).then((corr_coef_dict) => {
+                    //     var corr_coef = corr_coef_dict['corr_coef'];
                         // console.log(corr_coef_dict);
                         // console.log(corr_coef);
                         Plotly.restyle('gauge', 'value',[corr_coef]);
                         scatter.updateSeries([{
-                            name: `${chosen_column6}`,
-                            data: no_xy
-                            },
-                            {
-                            name: `${chosen_column7}`,
-                            data: no_xy2,
-                            },
+                            name: `x:${chosen_column6}  y:${chosen_column7}`,
+                            data: no_xy}
+                            // },
+                            // {
+                            // name: `${chosen_column7}`,
+                            // data: no_xy2,
+                            // },
                         ]);
-                    });
-                });
+                    // });
+                // });
             });
         });
     });
@@ -918,6 +973,7 @@ function plotScatter() {
 function zoomSumChartUpdate(start_date, end_date) {
     sum_table1.text("")
     sum_table2.text("")
+    // setTimeout(() => {sum_table1.text(""); sum_table2.text("");}, 500);
     var chosen_series1=dropdown1.property('value');
     var chosen_series2=dropdown2.property('value');
     var chosen_series3=dropdown3.property('value');
@@ -925,11 +981,11 @@ function zoomSumChartUpdate(start_date, end_date) {
     var chosen_series5=dropdown5.property('value');
     d3.json("../static/column_index.json").then((indexed_columns)=> {
         var index_dict2=indexed_columns;
-        var chosen_column1=index_dict2[chosen_series1];
-        var chosen_column2=index_dict2[chosen_series2];
-        var chosen_column3=index_dict2[chosen_series3];
-        var chosen_column4=index_dict2[chosen_series4];
-        var chosen_column5=index_dict2[chosen_series5];
+        var chosen_column1=index_dict2[chosen_series1][0];
+        var chosen_column2=index_dict2[chosen_series2][0];
+        var chosen_column3=index_dict2[chosen_series3][0];
+        var chosen_column4=index_dict2[chosen_series4][0];
+        var chosen_column5=index_dict2[chosen_series5][0];
         d3.json("../static/column_table.json").then((columns)=> {
             var table_dict=columns;
             var chosen_table1=table_dict[chosen_column1];
@@ -994,45 +1050,557 @@ function zoomSumChartUpdate(start_date, end_date) {
     });
 };
 
-function correlationUpdate(start_date, end_date) {
-        var chosen_series6=dropdown6.property('value');
-        var chosen_series7=dropdown7.property('value');
-        var chosen_series8=dropdown8.property('value');
-        var chosen_series9=dropdown9.property('value');
-        d3.json("../static/column_index.json").then((indexed_columns)=> {
-            var index_dict3=indexed_columns;
-            var chosen_main6=index_dict3[chosen_series6];
-            var chosen_main7=index_dict3[chosen_series7];
-            if (chosen_series8=='Main') {
-                var chosen_column6=index_dict3[chosen_series6];}
-                else if (chosen_series8=='Change') {
-                    var chosen_column6=index_dict3[chosen_series6].concat('_Change');}
-                    else {
-                        var chosen_column6=index_dict3[chosen_series6].concat('_Pct_Change');};
-            if (chosen_series9=='Main') {
-                var chosen_column7=chosen_main7;}
-                else if (chosen_series9=='Change') {
-                    var  chosen_column7=chosen_main7.concat('_Change');}
-                    else {
-                        var  chosen_column7=chosen_main7.concat('_Pct_Change');};
-            console.log(chosen_column6);
-            console.log(chosen_column7);
-            d3.json("../static/column_table.json").then((columns)=> {
-                var table_dict=columns;
-                var chosen_table6=table_dict[chosen_main6];
-                var chosen_table7=table_dict[chosen_main7];
-                console.log(chosen_table6);
-                console.log(chosen_table7);
-                d3.json(`http://127.0.0.1:5000/correlationupdate/${chosen_table6}/${chosen_column6}/${chosen_table7}/${chosen_column7}/${start_date}/${end_date}`).then((corr_coef_dict) => {
-                    var corr_coef = corr_coef_dict['corr_coef'];
-                    console.log(corr_coef_dict);
-                    console.log(corr_coef);
-                    Plotly.restyle('gauge', 'value',[corr_coef]);                    
-                    var corr_coef = corr_coef_dict['corr_coef'];
-                    console.log(corr_coef_dict);
-                    console.log(corr_coef);
-                    Plotly.restyle('gauge', 'value',[corr_coef]);
-                });
-            });
+// function correlationUpdate(start_date, end_date) {
+//         var chosen_series6=dropdown6.property('value');
+//         var chosen_series7=dropdown7.property('value');
+//         var chosen_series8=dropdown8.property('value');
+//         var chosen_series9=dropdown9.property('value');
+//         d3.json("../static/column_index.json").then((indexed_columns)=> {
+//             var index_dict3=indexed_columns;
+//             var chosen_main6=index_dict3[chosen_series6][0];
+//             var chosen_main7=index_dict3[chosen_series7][0];
+//             if (chosen_series8=='Main') {
+//                 var chosen_column6=index_dict3[chosen_series6][0];}
+//                 else if (chosen_series8=='Change') {
+//                     var chosen_column6=index_dict3[chosen_series6][0].concat('_Change');}
+//                     else {
+//                         var chosen_column6=index_dict3[chosen_series6][0].concat('_Pct_Change');};
+//             if (chosen_series9=='Main') {
+//                 var chosen_column7=chosen_main7;}
+//                 else if (chosen_series9=='Change') {
+//                     var  chosen_column7=chosen_main7.concat('_Change');}
+//                     else {
+//                         var  chosen_column7=chosen_main7.concat('_Pct_Change');};
+//             // console.log(chosen_column6);
+//             // console.log(chosen_column7);
+//             d3.json("../static/column_table.json").then((columns)=> {
+//                 var table_dict=columns;
+//                 var chosen_table6=table_dict[chosen_main6];
+//                 var chosen_table7=table_dict[chosen_main7];
+//                 // console.log(chosen_table6);
+//                 // console.log(chosen_table7);
+//                 d3.json(`http://127.0.0.1:5000/correlationupdate/${chosen_table6}/${chosen_column6}/${chosen_table7}/${chosen_column7}/${start_date}/${end_date}`).then((corr_coef_dict) => {
+//                     var corr_coef = corr_coef_dict['corr_coef'];
+//                     console.log(corr_coef_dict);
+//                     console.log(corr_coef);
+//                     Plotly.restyle('gauge', 'value',[corr_coef]);                    
+//                     var corr_coef = corr_coef_dict['corr_coef'];
+//                     console.log(corr_coef_dict);
+//                     console.log(corr_coef);
+//                     Plotly.restyle('gauge', 'value',[corr_coef]);
+//                 });
+//             });
+//         });
+//     };
+var options2 = {
+    series: [
+    ],
+    chart: {
+    type: 'area',
+    stacked: false,
+    height: 700,
+    width: 1050,
+    zoom: {
+    type: 'x',
+    enabled: true,
+    autoScaleYaxis: true
+    },
+    toolbar: {
+    autoSelected: 'zoom'
+    },
+    events: {
+        zoomed: function(chartContext, {xaxis, yaxis}) {
+            var zoomed_x_min=new Date(xaxis['min']);
+            var zoomed_x_max=new Date(xaxis['max']);
+            var min_month = zoomed_x_min.getMonth();
+            var min_day = zoomed_x_min.getDate();
+            var min_year = zoomed_x_min.getFullYear();
+            var zoomed_x_min_date = (min_month+1) + "-" + min_day + "-" + min_year;
+            var max_month = zoomed_x_max.getMonth();
+            var max_day = zoomed_x_max.getDate();
+            var max_year = zoomed_x_max.getFullYear();
+            var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
+            var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
+            var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
+            sum_table1.text("");
+            sum_table2.text("");
+            zoomSumChartUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);
+        },
+        beforeResetZoom: function(chartContext, opts) {
+            renderApexLine()
+        },
+        scrolled: function(chartContext, {xaxis}) {
+            var zoomed_x_min=new Date(xaxis['min']);
+            var zoomed_x_max=new Date(xaxis['max']);
+            var min_month = zoomed_x_min.getMonth();
+            var min_day = zoomed_x_min.getDate();
+            var min_year = zoomed_x_min.getFullYear();
+            var zoomed_x_min_date = (min_month+1) + "-" + min_day + "-" + min_year;
+            var max_month = zoomed_x_max.getMonth();
+            var max_day = zoomed_x_max.getDate();
+            var max_year = zoomed_x_max.getFullYear();
+            var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
+            var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
+            var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
+            // sum_table1.text("");
+            // sum_table2.text("");
+            zoomSumChartUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);
+        }
+    },
+},
+annotations: {
+    xaxis: [{
+        x: new Date('20 Jan 2017').getTime(),
+        x2: new Date('20 Jan 2020').getTime(),
+        fillColor: 'red',
+        opacity: 0.1
+    },
+        {
+        x: new Date('20 Jan 2009').getTime(),
+        x2: new Date('20 Jan 2017').getTime(),
+        fillColor: 'blue',
+        opacity: 0.1
+    }]
+},
+dataLabels: {
+    enabled: false
+},
+markers: {
+    size: 0,
+},
+title: {
+    text: '',
+    align: 'left'
+},
+fill: {
+    type: 'gradient',
+    gradient: {
+    shadeIntensity: 0,
+    inverseColors: false,
+    opacityFrom: 0,
+    opacityTo: 0,
+    stops: [0, 90, 100]
+    },
+},
+yaxis: [{
+    labels: {
+    formatter: function (val) {
+        return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+        },
+    },
+},
+{
+    title: {
+        text: ' '
+    },
+    },
+    {
+    opposite: true,
+    title: {
+        text:' '
+    },
+    }],
+// }],
+xaxis: {
+    type: 'datetime',
+},
+grid: {
+    show: true,
+    position:'back',
+    row: {
+        colors: ['darkgray', 'lightgray'], 
+        opacity: 0.9,
+        },
+    },
+tooltip: {
+    shared: true,
+    fillSeriesColor: true,
+    theme: 'dark',
+    x: {
+        format: 'MMM d, yyyy'
+    }
+
+},
+// responsive: [
+//     {
+//       breakpoint: 1000,
+//       options:{}
+//     }]
+};
+function chooseChartOptions() {
+    var band_or_event = dropdown12.property('value');
+    // console.log(band_or_event);
+    if (band_or_event == 'Presidents') {
+        // var chart_options = options1;
+        // console.log(chart_options);
+        chart.updateOptions({
+            annotations: {
+                position: 'back',
+                xaxis: [{
+                    x: new Date('20 Jan 2021').getTime(),
+                    x2: new Date('4 Oct 2021').getTime(),
+                    fillColor: 'blue',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('20 Jan 2017').getTime(),
+                    x2: new Date('20 Jan 2021').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('20 Jan 2009').getTime(),
+                    x2: new Date('20 Jan 2017').getTime(),
+                    fillColor: 'blue',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('20 Jan 2001').getTime(),
+                    x2: new Date('20 Jan 2009').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('20 Jan 1993').getTime(),
+                    x2: new Date('20 Jan 2001').getTime(),
+                    fillColor: 'blue',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('20 Jan 1989').getTime(),
+                    x2: new Date('20 Jan 1993').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('20 Jan 1981').getTime(),
+                    x2: new Date('20 Jan 1989').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('20 Jan 1977').getTime(),
+                    x2: new Date('20 Jan 1981').getTime(),
+                    fillColor: 'blue',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('09 Aug 1974').getTime(),
+                    x2: new Date('20 Jan 1977').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('20 Jan 1969').getTime(),
+                    x2: new Date('09 Aug 1974').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('20 Jan 1969').getTime(),
+                    x2: new Date('22 Nov 1963').getTime(),
+                    fillColor: 'blue',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('20 Jan 1961').getTime(),
+                    x2: new Date('22 Nov 1963').getTime(),
+                    fillColor: 'blue',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('20 Jan 1953').getTime(),
+                    x2: new Date('20 Jan 1961').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('12 Apr 1945').getTime(),
+                    x2: new Date('20 Jan 1953').getTime(),
+                    fillColor: 'blue',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('04 Mar 1933').getTime(),
+                    x2: new Date('12 Apr 1945').getTime(),
+                    fillColor: 'blue',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('04 Mar 1929').getTime(),
+                    x2: new Date('04 Jan 1933').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('02 Aug 1923').getTime(),
+                    x2: new Date('04 Mar 1929').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('04 Mar 1921').getTime(),
+                    x2: new Date('02 Aug 1923').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('04 Mar 1913').getTime(),
+                    x2: new Date('04 Mar 1921').getTime(),
+                    fillColor: 'blue',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('04 Mar 1909').getTime(),
+                    x2: new Date('04 Mar 1913').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('14 Sep 1901').getTime(),
+                    x2: new Date('04 Mar 1909').getTime(),
+                    fillColor: 'red',
+                    opacity: 0.1
+                }]
+            }
         });
     };
+    if (band_or_event == 'None') {
+        chart.updateOptions({
+            annotations: {
+                xaxis: [{
+                    x: new Date('01 Jan 1801').getTime(),
+                    x2: new Date ('02 Jan 1801').getTime(),
+                    fillColor: 'lightgray',
+                    opacity: 0.1
+                }]
+            }
+        });
+    };
+    if (band_or_event == 'Recessions') {
+        chart.updateOptions({
+            annotations: {
+                xaxis: [{
+                    x: new Date('02 Feb 2020').getTime(),
+                    x2: new Date('01 Apr 2020').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('01 Dec 2007').getTime(),
+                    x2: new Date('01 Jun 2009').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('01 Mar 2001').getTime(),
+                    x2: new Date('01 Nov 2001').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                    },
+                {
+                    x: new Date('01 Jul 1990').getTime(),
+                    x2: new Date('01 Mar 1991').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('01 Jul 1981').getTime(),
+                    x2: new Date('01 Nov 1982').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('01 Jan 1980').getTime(),
+                    x2: new Date('01 Jul 1980').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('01 Nov 1973').getTime(),
+                    x2: new Date('01 Mar 1975').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('01 Dec 1969').getTime(),
+                    x2: new Date('01 Nov 1970').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('01 Apr 1960').getTime(),
+                    x2: new Date('01 Feb 1961').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('01 Aug 1957').getTime(),
+                    x2: new Date('01 Apr 1958').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('01 Jul 1953').getTime(),
+                    x2: new Date('01 May 1954').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('01 Feb 1945').getTime(),
+                    x2: new Date('01 Oct 1945').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                    {
+                    x: new Date('01 May 1937').getTime(),
+                    x2: new Date('01 Jun 1938').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                },
+                {
+                    x: new Date('01 Aug 1929').getTime(),
+                    x2: new Date('01 Mar 1933').getTime(),
+                    fillColor: 'black',
+                    opacity: 0.1
+                }]
+            }
+        });
+    };
+    if (band_or_event =='Events') {
+        chart.updateOptions({
+            annotations: {
+                position: 'front',
+                xaxis: [{
+                    x: new Date('01 Sep 1939').getTime(),
+                    borderColor: 'black',
+                    label: {
+                        borderColor: 'black',
+                        stye: {
+                            color: 'black',
+                            background: 'black'
+                        },
+                        text: 'WWII Begins'
+                    }
+                    },
+                    {
+                    x: new Date('07 Dec 1941').getTime(),
+                    borderColor: 'black',
+                    label: {
+                        stye: {
+                            color: 'black',
+                        },
+                        text: 'Pearl Harbor'
+                    }
+                    },
+                    {
+                    x: new Date('02 Sep 1945').getTime(),
+                    borderColor: 'black',
+                    label: {
+                        stye: {
+                            color: 'WWII Ends',
+                        },
+                        text: 'WWII Begins'
+                    }
+                    },
+                    {
+                    x: new Date('12 Mar 1947').getTime(),
+                    borderColor: 'red',
+                    label: {
+                        stye: {
+                            color: 'red',
+                        },
+                        text: 'Cold War Begins'
+                    }
+                    },
+                    {
+                    x: new Date('25 Dec 1991').getTime(),
+                    borderColor: 'red',
+                    label: {
+                        stye: {
+                            color: 'red',
+                        },
+                        text: 'Cold War Ends'
+                    }
+                    },
+                    {
+                    x: new Date('01 Mar 1961').getTime(),
+                    borderColor: 'green',
+                    label: {
+                        stye: {
+                            color: 'green',
+                        },
+                        text: 'US in Vietnam Begins'
+                    }
+                    },
+                    {
+                    x: new Date('07 May 1975').getTime(),
+                    borderColor: 'green',
+                    label: {
+                        stye: {
+                            color: 'green',
+                        },
+                        text: 'US in Vietnam Ends'
+                    }
+                    },
+                    {
+                    x: new Date('01 Mar 1964').getTime(),
+                    borderColor: 'blue',
+                    label: {
+                        stye: {
+                            color: 'blue',
+                        },
+                        text: 'Great Society'
+                    }
+                    },
+                    {
+                    x: new Date('02 Jul 1964').getTime(),
+                    borderColor: 'purple',
+                    label: {
+                        stye: {
+                            color: 'purple',
+                        },
+                        text: 'Civil Rights Act'
+                    }
+                    },
+                    {
+                    x: new Date('15 Aug 1971').getTime(),
+                    borderColor: 'gold',
+                    label: {
+                        stye: {
+                            color: 'gold',
+                        },
+                        text: 'End of Bretton Woods'
+                    }
+                    },
+                    {
+                    x: new Date('11 Sep 2001').getTime(),
+                    borderColor: 'orange',
+                    label: {
+                        stye: {
+                            color: 'orange',
+                        },
+                        text: '9/11 Attacks'
+                    }
+                    },
+                    {
+                    x: new Date('01 Mar 2020').getTime(),
+                    borderColor: 'Black',
+                    label: {
+                        borderColor: 'black',
+                        stye: {
+                            color: 'white',
+                            background: 'black'
+                        },
+                        text: 'COVID Begins'
+                    }
+                }]
+            }
+        });
+        // else if (band_or_event == 'Events') {
+        //     chart.updateOptions({
+    }
+};
+
+//CREATE AN INSTANCE OF THE LINE CHART
+var chart = new ApexCharts(document.querySelector("#area-datetime"), options);

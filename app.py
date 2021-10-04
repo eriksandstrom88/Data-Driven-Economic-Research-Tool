@@ -211,22 +211,10 @@ for i in range(1,123):
             query_dict[each_row[0]] = [each_row[1]]
         all_queries_dict[column] = query_dict
     except:
-        print("")
+        print(f'couldnt query {column}')
 cpi_model = LinearRegression()
 pce_model = LinearRegression()
 deflator_model = LinearRegression()
-#Set up CPI model
-# best_cpi_predictors_index = [2,7,14,33,34,72,75,79,115,121]
-# cpi_model_df = cpi_df
-# for each_cpi_predictor in best_cpi_predictors_index:
-#     column_name = main_series_index[each_cpi_predictor]
-#     cpi_predictor_df = pd.DataFrame.from_dict(all_queries_dict[column_name], orient='index', columns=[column_name])
-#     cpi_model_df = cpi_model_df.merge(cpi_predictor_df, left_index=True, right_index=True)
-# C = cpi_model_df[['m2', 'nom_gdpcap','government_expenditures','commercial_industrial_loans','consumer_loans_com_banks','real_output_hour','real_disposable_personal_income','corporate_profits_after_tax','imports_goods_services','real_gross_domestic_private_investment']]
-# c = cpi_model_df[['cpi']] #1
-# cpi_model_regress = cpi_model.fit(C,c) #1
-# cpi_coefs = cpi_model_regress.coef_
-# cpi_r2_score = cpi_model_regress.score(C,c)
 best_cpi_predictors_index = [2,7,14,33,34,72,75,79,115,121]
 cpi_model_df = cpi_df
 for each_cpi_predictor in best_cpi_predictors_index:
@@ -306,8 +294,6 @@ model_table_values = {'cpi_table_values':[latest_m2,latest_nom_gdpcap,latest_gov
                     'indices': [latest_cpi, latest_cpi_pct_change, latest_pce, latest_pce_pct_change, latest_deflator, latest_deflator_pct_change]
                     }
 
-test_variable = 'Hi Im Erik'
-
 app = Flask(__name__)
 CORS(app)
 @app.route("/")
@@ -335,11 +321,11 @@ def inflation_query(table_name, column_name):
         pct_change = change/y_values[value-1]
         change_calc.append(change)
         pct_change_calc.append(pct_change)
-    minimum = min(y_values)
-    maximum = max(y_values)
-    start_value = y_values[0]
-    end_value = y_values[-1]
-    total_change = end_value-start_value
+    minimum = round(min(y_values),4)
+    maximum = round(max(y_values),4)
+    start_value = round(y_values[0],4)
+    end_value = round(y_values[-1],4)
+    total_change = round(end_value-start_value,4)
     percent_change = round((total_change/start_value)*100,4)
     pct_change_calc = pct_change_calc[1:]
     change_calc = change_calc[1:]
@@ -349,8 +335,8 @@ def inflation_query(table_name, column_name):
     avg_pct_change = round(statistics.mean(pct_change_calc),4)
     change_std = round(statistics.stdev(change_calc),4)
     pct_change_std = round(statistics.stdev(pct_change_calc),4)
-    stats = [column_name, start_value, end_value, total_change, percent_change, minimum, maximum]
-    stats2 = [column_name, avg_change, change_variance, change_std, avg_pct_change, pct_change_variance, pct_change_std]
+    stats = [column_name, round(start_value,4), round(end_value,4), round(total_change,4), round(percent_change,4), round(minimum,4), round(maximum,4)]
+    stats2 = [column_name, round(avg_change,4), round(change_variance,4), round(change_std,4), round(avg_pct_change,4), round(pct_change_variance,4), round(pct_change_std,4)]
     return_dict['stats'] = stats
     return_dict['stats2'] = stats2
     return_dict['no_xy'] = no_xy_list
@@ -362,6 +348,7 @@ def sumtablezoom_query(table_name, column_name, start_date, end_date):
     session=Session(engine)
     new_query = session.execute(f'select date, {column_name} from {table_name} where {column_name} is not null and date >= {start_date} and date <= {end_date}')
     session.close()
+    print(start_date, end_date)
     y_values = []
     stats = []
     stats2 = []
@@ -376,10 +363,10 @@ def sumtablezoom_query(table_name, column_name, start_date, end_date):
         pct_change = change/y_values[value-1]
         change_calc.append(change)
         pct_change_calc.append(pct_change)
-    minimum = min(y_values)
-    maximum = max(y_values)
-    start_value = y_values[0]
-    end_value = y_values[-1]
+    minimum = round(min(y_values),4)
+    maximum = round(max(y_values),4)
+    start_value = round(y_values[0],4)
+    end_value = round(y_values[-1],4)
     total_change = round(end_value-start_value,4)
     percent_change = round((total_change/start_value)*100,4)
     pct_change_calc = pct_change_calc[1:]
@@ -390,92 +377,182 @@ def sumtablezoom_query(table_name, column_name, start_date, end_date):
     avg_pct_change = round(statistics.mean(pct_change_calc),4)
     change_std = round(statistics.stdev(change_calc),4)
     pct_change_std = round(statistics.stdev(pct_change_calc),4)
-    stats = [column_name, start_value, end_value, total_change, percent_change, minimum, maximum]
-    stats2 = [column_name, avg_change, change_variance, change_std, avg_pct_change, pct_change_variance, pct_change_std]
+    stats = [column_name, round(start_value,4), round(end_value,4), round(total_change,4), round(percent_change,4), round(minimum,4), round(maximum,4)]
+    stats2 = [column_name, round(avg_change,4), round(change_variance,4), round(change_std,4), round(avg_pct_change,4), round(pct_change_variance,4), round(pct_change_std,4)]
     return_dict['stats'] = stats
     return_dict['stats2'] = stats2
     new_data = jsonify(return_dict)
     return new_data
 
-@app.route("/scatter_api/<table_name>/<column_name>")
-def scatter_inflation_query(table_name, column_name):
+@app.route("/scatter_api/<table_name>/<column_name>/<table_name2>/<column_name2>/<start_date>/<end_date>")
+def scatter_inflation_query(table_name, column_name,table_name2,column_name2,start_date,end_date):
     session=Session(engine)
-    new_query = session.execute(f'select date, {column_name} from {table_name} where {column_name} is not null')# and date >= {start_date} and date <= {end_date}')
-    session.close()
-    no_xy_list = []
-    change_calc= []
-    pct_change_calc = []
+    start_date = start_date.replace("-","/")
+    # start_date = f'"{start_date}"'
+    end_date = end_date.replace("-","/")
+    # end_date = f'"{end_date}"'
+    print(start_date,end_date)
+    if start_date == 'default':
+        if end_date =='default':
+            new_query = session.execute(f'select date, {column_name} from {table_name} where {column_name} is not null')
+            session.close()
+            new_query2 = session.execute(f'select date, {column_name2} from {table_name2} where {column_name2} is not null')
+            session.close()
+        else:
+            end_date = f'"{end_date}"'
+            end_date = end_date.replace('"',"'")
+            new_query = session.execute(f'select date, {column_name} from {table_name} where {column_name} is not null and date <= {end_date}')
+            session.close()
+            new_query2 = session.execute(f'select date, {column_name2} from {table_name2} where {column_name2} is not null and date <= {end_date}')
+            session.close()
+    elif start_date != 'default':
+        start_date = f'"{start_date}"'
+        start_date = start_date.replace('"',"'")
+        if end_date == 'default':
+            new_query = session.execute(f'select date, {column_name} from {table_name} where {column_name} is not null and date >= {start_date}')
+            session.close()
+            new_query2 = session.execute(f'select date, {column_name2} from {table_name2} where {column_name2} is not null and date >= {start_date}')
+            session.close()
+        else:
+            end_date = f'"{end_date}"'
+            end_date = end_date.replace('"',"'")
+            new_query = session.execute(f'select date, {column_name} from {table_name} where {column_name} is not null and date >= {start_date} and date <= {end_date}')
+            session.close()
+            new_query2 = session.execute(f'select date, {column_name2} from {table_name2} where {column_name2} is not null and date >= {start_date} and date <= {end_date}')
+            session.close()
+    # session.close()
+    # new_query2 = session.execute(f'select date, {column_name2} from {table_name2} where {column_name2} is not null')
+    # session.close()
+    # series1_list = []
     return_dict = {}
+    return_dict2 = {}
+    i=1
+    j=1
     for each_result in new_query:
-        row=[each_col for each_col in each_result]
-        no_xy_list.append(row)
-    return_dict['no_xy'] = no_xy_list
-    new_data = jsonify(return_dict)
+        date = each_result[0]
+        value = each_result[1]
+        return_dict[i] = [date,value]
+        i=i+1
+        # row=[each_col for each_col in each_result]
+        # series1_list.append(row)
+    for each_result2 in new_query2:
+        date2 = each_result2[0]
+        value2 = each_result2[1]
+        return_dict2[j] = [date2,value2]
+        j=j+1
+    # return_dict['no_xy'] = series1_list
+    query1_df = pd.DataFrame.from_dict(return_dict,orient='index').rename(columns={0:'Date',1:'Value'})
+    query2_df = pd.DataFrame.from_dict(return_dict2,orient='index').rename(columns={0:'Date',1:'Value'})
+    # if query1_df['Date'][0] >= query2_df['Date'][0]:
+    #     left_right = 'left'
+    # else:
+    #     left_right = 'right'
+    merged_df = query1_df.merge(query2_df,how='left',on='Date')
+    # if start_date != 'default':
+    #     merged_df = merged_df.loc[merged_df.loc[:,'Date']>=dt.fromisoformat(start_date),:]
+    # if end_date != 'default':
+    #     merged_df = merged_df.loc[merged_df.loc[:,'Date']<=dt.fromisoformat(end_date),:]
+    merged_df = merged_df.set_index('Date')
+    merged_dict = merged_df.to_dict('split')
+    # print('so far so good')
+    return_dict3 = {}
+    for each_date in range(len(merged_dict['index'])):
+        return_dict3[str(merged_dict['index'][each_date])] = merged_dict['data'][each_date]
+    scatter_data_list = []
+    corr_list1 = []
+    corr_list2 = []
+    return_dict4 ={}
+    for key, val in return_dict3.items():
+        scatter_data_list.append(val)
+        corr_list1.append(val[0])
+        corr_list2.append(val[1])
+    corr_coef = sts.pearsonr(corr_list1, corr_list2)
+    return_dict4['corr_coef']=corr_coef[0]
+    return_dict4['scatter_values']=scatter_data_list
+    # return_dict3['Dates']=merged_dict['index']
+    # return_dict3['Values'] = merged_dict['data']#dict(zip(str(merged_dict['index']),merged_dict['data']))
+    new_data = jsonify(return_dict4)
+    # new_query2 = session.execute(f'select date, {column_name2} from {table_name2} where {column_name2} is not null')
+    # scatter_x_list = []
+    # scatter_y_list = []
+    # return_dict = {}
+    # for each_result in new_query2:
     return new_data
 
-@app.route("/correlation/<table6>/<column6>/<table7>/<column7>")
-def calc_corr_coef(table6,column6,table7,column7):
-    session=Session(engine)
-    corr_query = session.execute(f'select date, {column6} from {table6} where {column6} is not null ')
-    corr_query2 = session.execute(f'select date, {column7} from {table7} where {column7} is not null')
-    session.close()
-    corr_query_dates=[]
-    corr_query2_dates=[]
-    corr_query_values=[]
-    corr_query2_values=[]
-    corr_coef_dict = {}
-    for each_result in corr_query:
-        row=[each_col for each_col in each_result]
-        corr_query_dates.append(row[0])
-        corr_query_values.append(row[1])
-    for each_result in corr_query2:
-        row=[each_col for each_col in each_result]
-        corr_query2_dates.append(row[0])
-        corr_query2_values.append(row[1])
-    corr_dict = {'Date':corr_query_dates,
-                'value1':corr_query_values}
-    corr2_dict = {'Date':corr_query2_dates,
-                'value2':corr_query2_values}
-    corr_df = pd.DataFrame(corr_dict)
-    corr2_df = pd.DataFrame(corr2_dict)
-    merged_df = corr_df.merge(corr2_df, how='outer', on='Date')
-    merged_df = merged_df.set_index('Date').sort_values('Date')
-    corr_coef = sts.pearsonr(merged_df['value1'], merged_df['value2'])
-    corr_coef_dict['corr_coef']=corr_coef[0]
-    new_corr_coef = jsonify(corr_coef_dict)
-    return new_corr_coef
+# @app.route("/correlation/<table6>/<column6>/<table7>/<column7>/<start_date>/<end_date>")
+# def calc_corr_coef(table6,column6,table7,column7,start_date,end_date):
+#     session=Session(engine)
+#     new_query = session.execute(f'select date, {column6} from {table6} where {column6} is not null')# and date >= {start_date} and date <= {end_date}')
+#     session.close()
+#     new_query2 = session.execute(f'select date, {column7} from {table7} where {column7} is not null')
+#     session.close()
+#     return_dict = {}
+#     return_dict2 = {}
+#     i=1
+#     j=1
+#     for each_result in new_query:
+#         date = each_result[0]
+#         value = each_result[1]
+#         return_dict[i] = [date,value]
+#         i=i+1
+#     for each_result2 in new_query2:
+#         date2 = each_result2[0]
+#         value2 = each_result2[1]
+#         return_dict2[j] = [date2,value2]
+#         j=j+1
+#     query1_df = pd.DataFrame.from_dict(return_dict,orient='index').rename(columns={0:'Date',1:'Value'})
+#     query2_df = pd.DataFrame.from_dict(return_dict2,orient='index').rename(columns={0:'Date',1:'Value'})
+#     # if query1_df['Date'][0] >= query2_df['Date'][0]:
+#     #     left_right = 'left'
+#     # else:
+#     #     left_right = 'right'
+#     merged_df = query1_df.merge(query2_df,how='left',on='Date').set_index('Date')
+#     merged_dict = merged_df.to_dict('split')
+#     return_dict3 = {}
+#     for each_date in range(len(merged_dict['index'])):
+#         return_dict3[str(merged_dict['index'][each_date])] = merged_dict['data'][each_date]
+#     corr_list1 = []
+#     corr_list2 = []
+#     corr_coef_dict ={}
+#     for key, val in return_dict3.items():
+#         corr_list1.append(val[0])
+#         corr_list2.append(val[1])
+#     corr_coef = sts.pearsonr(corr_list1, corr_list2)
+#     corr_coef_dict['corr_coef']=corr_coef[0]
+#     new_corr_coef = jsonify(corr_coef_dict)
+#     return new_corr_coef
 
-@app.route("/correlationupdate/<table6>/<column6>/<table7>/<column7>/<start_date>/<end_date>")
-def update_corr_coef(table6,column6,table7,column7, start_date, end_date):
-    session=Session(engine)
-    corr_query = session.execute(f'select date, {column6} from {table6} where {column6} is not null and date >= {start_date} and date <= {end_date}')
-    corr_query2 = session.execute(f'select date, {column7} from {table7} where {column7} is not null and date >= {start_date} and date <= {end_date}')
-    session.close()
-    corr_query_dates=[]
-    corr_query2_dates=[]
-    corr_query_values=[]
-    corr_query2_values=[]
-    corr_coef_dict = {}
-    for each_result in corr_query:
-        row=[each_col for each_col in each_result]
-        corr_query_dates.append(row[0])
-        corr_query_values.append(row[1])
-    for each_result in corr_query2:
-        row=[each_col for each_col in each_result]
-        corr_query2_dates.append(row[0])
-        corr_query2_values.append(row[1])
-    corr_dict = {'Date':corr_query_dates,
-                'value1':corr_query_values}
-    corr2_dict = {'Date':corr_query2_dates,
-                'value2':corr_query2_values}
-    corr_df = pd.DataFrame(corr_dict)
-    corr2_df = pd.DataFrame(corr2_dict)
-    merged_df = corr_df.merge(corr2_df, how='outer', on='Date')
-    merged_df = merged_df.set_index('Date').sort_values('Date')
-    corr_coef = sts.pearsonr(merged_df['value1'], merged_df['value2'])
-    corr_coef_dict['corr_coef']=corr_coef[0]
-    updated_corr_coef = jsonify(corr_coef_dict)
-    return updated_corr_coef
+# @app.route("/correlationupdate/<table6>/<column6>/<table7>/<column7>/<start_date>/<end_date>")
+# def update_corr_coef(table6,column6,table7,column7, start_date, end_date):
+#     session=Session(engine)
+#     corr_query = session.execute(f'select date, {column6} from {table6} where {column6} is not null and date >= {start_date} and date <= {end_date}')
+#     corr_query2 = session.execute(f'select date, {column7} from {table7} where {column7} is not null and date >= {start_date} and date <= {end_date}')
+#     session.close()
+#     corr_query_dates=[]
+#     corr_query2_dates=[]
+#     corr_query_values=[]
+#     corr_query2_values=[]
+#     corr_coef_dict = {}
+#     for each_result in corr_query:
+#         row=[each_col for each_col in each_result]
+#         corr_query_dates.append(row[0])
+#         corr_query_values.append(row[1])
+#     for each_result in corr_query2:
+#         row=[each_col for each_col in each_result]
+#         corr_query2_dates.append(row[0])
+#         corr_query2_values.append(row[1])
+#     corr_dict = {'Date':corr_query_dates,
+#                 'value1':corr_query_values}
+#     corr2_dict = {'Date':corr_query2_dates,
+#                 'value2':corr_query2_values}
+#     corr_df = pd.DataFrame(corr_dict)
+#     corr2_df = pd.DataFrame(corr2_dict)
+#     merged_df = corr_df.merge(corr2_df, how='outer', on='Date')
+#     merged_df = merged_df.set_index('Date').sort_values('Date')
+#     corr_coef = sts.pearsonr(merged_df['value1'], merged_df['value2'])
+#     corr_coef_dict['corr_coef']=corr_coef[0]
+#     updated_corr_coef = jsonify(corr_coef_dict)
+#     return updated_corr_coef
 
 @app.route("/model_init")
 def populate_model_tables():

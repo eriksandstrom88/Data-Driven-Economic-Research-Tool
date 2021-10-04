@@ -106,17 +106,24 @@ h3 {
 }
 
 #cpi-btn {
-   background-color: fuchsia;
+   background-color: MidnightBlue;
+   color: white;
 }
 
 #pce-btn {
-   background-color: fuchsia;
+   background-color: MidnightBlue;
+   color: white;
 }
 
 #deflator-btn {
-   background-color: fuchsia;
+   background-color: MidnightBlue;
+   color: white;
 }
 
 .text-center {
    text-align: center;
+}
+
+.user-input-td {
+   color: white;
 }

@@ -22,16 +22,21 @@
                     <h2>Choose 5 Series to Compare</h2>
                 </div>
                 <div class="row">
-                    <p>Use the dropdown menus below the chart to select up to 5 data series to display on the chart.  For reference,
-                        the numbers in the dropdowns are the index numbers of different series that can be found in the index table at 
-                        the bottom of the page.</p>
+                    <p>Use the dropdown menus below the chart to select up to 5 data series to display on the chart.</p>
                         
                         <p>The summary statistic tables will automatically populate based on the data that is selected.
                         The summary tables will adjust according to the chart zooming into a certain range, or panning once zoomed.
                         To return to the original chart with its full date range, click on the house icon in the chart's tool bar top right.</p>
 
-                        <p>Individual line plots can be turned on or off by clicking on the legend below the chart.
-                    </p>
+                        <p>Individual line plots can be turned on or off by clicking on the legend below the chart.  The values on the left y-axis 
+                            closest to the chart correspond to the first series selected; the values on the left y-axis farther from the chart correspond 
+                            to the second series selected; the values on the right y-axis correspond to the third series selected.  Hovering the mouse
+                            over the chart will also display the values associated with the different lines in the tooltip.
+                        </p>
+
+                        <p>All data is extracted from the St. Louis Federal Reserve's FRED Database, with the exception of three stock market indices
+                            and gold prices extracted from the Wall Street Journal.  Change and percent change data are calculated by this application
+                            based on the original FRED/WSJ data.  FRED reference codes are included in the index table at the bottom of the page.</p>
                 </div>
                 <div class="row">
                     <div class="col-md-7">
@@ -43,6 +48,11 @@
                         <div class="row">
                             <div id="line-chart">
                                 <div id="area-datetime"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="well">
+                                <h5>Events/Recessions/Presidents:    <select id="selBandsEvents"></select></h5>
                             </div>
                         </div>
                     </div>
@@ -96,7 +106,7 @@
                 </br>
                 <div class="row">
                     <!-- TABLE GOES HERE -->
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <div class="row">
                             <h3>Select Series:</h3>
                         </div>
@@ -131,7 +141,10 @@
                             </ul>
                         </div>
                     </div> <!--ends selection table column -->
-                    <div class="col-md-10">
+                    <div class="col-md-8">
+                    </br>
+                    </br>
+                    </br>
                         <div id="selection-table-area" class="">
                             <table id="selection-table" class="table table-striped">
                                 <thead>
@@ -141,7 +154,7 @@
                                         <th style="background-color: white" class="table-head">Units</th>
                                         <th style="background-color: white" class="table-head">Interval</th>
                                         <th style="background-color: white" class="table-head">Start Date</th>
-                                        <th style="background-color: white" class="table-head">End Date</th>
+                                        <th style="background-color: white" class="table-head">Source</th>
                                     </tr>
                                 </thead>
                                 <tbody id="selection-table-body">
@@ -167,16 +180,14 @@
                 </br>
                 <!-- </br> -->
                 <div class="row">
-                    <p>Use the dropdown menus to the right of the scatter plot to select two series to compare.  Like above,
-                        the numbers in the dropdowns are the index numbers of different series that can be found in the index table at 
-                        the bottom of the page.  Additionally, you can select "change" or "percent change" to examine how the selected
-                    series changes from interval to interval</p>
-                        
-                        <p>The gauge will display the correlation coefficient between the two series, as well as the R^2 score which represents
-                            how much of the variance in variable 2 can be accounted for by variable 1.</p>
+                    <p>Use the dropdown menus to the right of the scatter plot to select two series to compare.  The default setting is series "Change",
+                        which reports how much each series changes from one interval to the next.  The user may select "Main" or "Pct_Change" to examine 
+                        the main series or how the selected series changes by percentage from interval to interval.</p>
 
-                        <p>Also similar to above, the user may zoom in on a selection of the two series, and the correlation and R^2 will re-calculate.
-                    </p>
+                    <p>Additionally, the user may specify a date range or simply a start date or end date to filter the two selected series.  The format MUST be mm-dd-yyyy.  
+                        Press Enter once dates are entered.  If no dates are provided, the full series will be used.  Refer to the index table for earliest dates.</p>
+                        
+                        <p>The gauge will display the correlation coefficient between the two series.</p>
                 </div>
                 <div class="row">     
                     <div class="col-md-7">
@@ -189,13 +200,23 @@
                     </div>
                     <div class="col-md-5">
                         <div class="row">
-                        </br>
-                            <div class="col-md-3">
+                        </div>
+                        <!-- </br> -->
+                        <div class="row">
+                            <div class="col-md-5">
+                                <h5>Scatter 1 (x-axis):</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
                                 <div class="well">
-                                    <h5>Scatter 1:    <select id="selDataset6"></select></h5>
+                                    <h5><select id="selDataset6"></select><h5></h5>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                        </div>
+                        <!-- </br> -->
+                        <div class="row">
+                            <div class="col-sm-4">
                                 <div class="well">
                                     <h5>Calc:    <select id="selDataset8"></select></h5>
                                 </div>
@@ -206,7 +227,47 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- </br> -->
                         <div class="row">
+                            <div class="col-md-5">
+                                <h5>Scatter 2 (y-axis):</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="well">
+                                    <h5><select id="selDataset7"></select><h5></h5>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </br> -->
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="well">
+                                    <h5>Calc:    <select id="selDataset9"></select></h5>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="well">
+                                    <h5>Lag:    <select id="selDataset11"></select></h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h5>Date Range:</h5>
+                            </div>
+                            <div class="col-sm-3">
+                                <input class="form-control" id="scatter-start" type="text"placeholder="mm-dd-yyyy">
+                            </div>
+                            <div class="col-sm-1">
+                                <h5>to</h5>
+                            </div>
+                            <div class="col-sm-3">
+                                <input class="form-control" id="scatter-end" type="text"placeholder="mm-dd-yyyy">
+                            </div>                                
+                        </div>
+                        <!-- <div class="row">
                             <div class="col-md-3">
                                 <div class="well">
                                     <h5>Scatter 2:    <select id="selDataset7"></select></h5>
@@ -222,16 +283,16 @@
                                     <h5>Lag:    <select id="selDataset11"></select></h5>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         </br>
                         <div class="row">
                             <h3>Correlation of Scatter</h3>
                         </div>
-                        </br>
+                        <!-- </br> -->
                         <div class="row">
                             <div id="gauge"></div>
                         </div>
-                    </div>
+                    </div> <!--ends scatter column-->
                 </div>
             </div>
         </div>
@@ -285,7 +346,7 @@
                                     <td style="background-color: white" class="table-head">Percent Change</td>
                                 </tr>                                
                                 <tr>
-                                    <td style="background-color: fuchsia">User Input Values</td>
+                                    <td class="user-input-td" style="background-color: MidnightBlue">User Input Values</td>
                                     <td><input class="form-control" id="cpi-m2-val" type="text"placeholder="User Value"></td>
                                     <td><input class="form-control" id="cpi-gdp-val" type="text" placeholder="User Value"></td>
                                     <td><input class="form-control" id="cpi-ge-val" type="text" placeholder="User Value"></td>
@@ -356,7 +417,7 @@
                             <td style="background-color: white" class="table-head">Percent Change</td>
                         </tr>                                
                         <tr>
-                            <td style="background-color: fuchsia">User Input Values</td>
+                            <td class="user-input-td" style="background-color: MidnightBlue" style="color: white">User Input Values</td>
                             <td><input class="form-control" id="pce-m2-val" type="text"placeholder="User Value"></td>
                             <td><input class="form-control" id="pce-gdp-val" type="text" placeholder="User Value"></td>
                             <td><input class="form-control" id="pce-ge-val" type="text" placeholder="User Value"></td>
@@ -427,7 +488,7 @@
                             <td style="background-color: white" class="table-head">Percent Change</td>
                         </tr>                                
                         <tr>
-                            <td style="background-color: fuchsia">User Input Values</td>
+                            <td class="user-input-td" style="background-color: MidnightBlue" style="color: white">User Input Values</td>
                             <td><input class="form-control" id="deflator-m2-val" type="text"placeholder="User Value"></td>
                             <td><input class="form-control" id="deflator-rgdp-val" type="text" placeholder="User Value"></td>
                             <td><input class="form-control" id="deflator-ge-val" type="text" placeholder="User Value"></td>
@@ -473,8 +534,21 @@
         <br/>
         <div class="row">
             <div class="col-md-12">
-                <div class="text-center">
-                    <h1>Series Index Table</h1>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <h1>Series Index Table</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col_md_12">
+                        <div class="text-center">
+                            <p>The table below displays the series name, units, reporting interval, earliest reported date, and the source.  All sources listed refer to 
+                                the FRED reference code with the exceptions of three stock indices and the daily gold price sourced from the Wall Street Journal.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -490,7 +564,7 @@
                                 <th style="background-color: white" class="table-head">Units</th>
                                 <th style="background-color: white" class="table-head">Interval</th>
                                 <th style="background-color: white" class="table-head">Start</th>
-                                <th style="background-color: white" class="table-head">End</th>
+                                <th style="background-color: white" class="table-head">Source</th>
                             </tr>
                         </thead>
                         <tbody id="index-table">
