@@ -180,7 +180,6 @@ table_classes = {'stocks_gold_daily':Stocks_gold_daily,
 
 session=Session(engine)
 cpi_dict = {}
-# session = Session(engine)
 cpi_query = session.execute("select date, cpi, cpi_change, cpi_pct_change from cpi_monthly where cpi is not null and date >= '1-1-1972' and date <='1-1-2020'")
 session.close()
 cpi_dict = {}
@@ -388,9 +387,7 @@ def sumtablezoom_query(table_name, column_name, start_date, end_date):
 def scatter_inflation_query(table_name, column_name,table_name2,column_name2,start_date,end_date):
     session=Session(engine)
     start_date = start_date.replace("-","/")
-    # start_date = f'"{start_date}"'
     end_date = end_date.replace("-","/")
-    # end_date = f'"{end_date}"'
     print(start_date,end_date)
     if start_date == 'default':
         if end_date =='default':
@@ -420,10 +417,6 @@ def scatter_inflation_query(table_name, column_name,table_name2,column_name2,sta
             session.close()
             new_query2 = session.execute(f'select date, {column_name2} from {table_name2} where {column_name2} is not null and date >= {start_date} and date <= {end_date}')
             session.close()
-    # session.close()
-    # new_query2 = session.execute(f'select date, {column_name2} from {table_name2} where {column_name2} is not null')
-    # session.close()
-    # series1_list = []
     return_dict = {}
     return_dict2 = {}
     i=1
@@ -433,14 +426,11 @@ def scatter_inflation_query(table_name, column_name,table_name2,column_name2,sta
         value = each_result[1]
         return_dict[i] = [date,value]
         i=i+1
-        # row=[each_col for each_col in each_result]
-        # series1_list.append(row)
     for each_result2 in new_query2:
         date2 = each_result2[0]
         value2 = each_result2[1]
         return_dict2[j] = [date2,value2]
         j=j+1
-    # return_dict['no_xy'] = series1_list
     query1_df = pd.DataFrame.from_dict(return_dict,orient='index').rename(columns={0:'Date',1:'Value'})
     query2_df = pd.DataFrame.from_dict(return_dict2,orient='index').rename(columns={0:'Date',1:'Value'})
     # if query1_df['Date'][0] >= query2_df['Date'][0]:
@@ -454,7 +444,6 @@ def scatter_inflation_query(table_name, column_name,table_name2,column_name2,sta
     #     merged_df = merged_df.loc[merged_df.loc[:,'Date']<=dt.fromisoformat(end_date),:]
     merged_df = merged_df.set_index('Date')
     merged_dict = merged_df.to_dict('split')
-    # print('so far so good')
     return_dict3 = {}
     for each_date in range(len(merged_dict['index'])):
         return_dict3[str(merged_dict['index'][each_date])] = merged_dict['data'][each_date]
@@ -469,15 +458,44 @@ def scatter_inflation_query(table_name, column_name,table_name2,column_name2,sta
     corr_coef = sts.pearsonr(corr_list1, corr_list2)
     return_dict4['corr_coef']=corr_coef[0]
     return_dict4['scatter_values']=scatter_data_list
-    # return_dict3['Dates']=merged_dict['index']
-    # return_dict3['Values'] = merged_dict['data']#dict(zip(str(merged_dict['index']),merged_dict['data']))
     new_data = jsonify(return_dict4)
-    # new_query2 = session.execute(f'select date, {column_name2} from {table_name2} where {column_name2} is not null')
-    # scatter_x_list = []
-    # scatter_y_list = []
-    # return_dict = {}
-    # for each_result in new_query2:
     return new_data
+
+@app.route("/model_init")
+def populate_model_tables():
+    return model_table_values
+
+@app.route("/cpi_predict/<m2>/<nom_gdpcap>/<government_expenditures>/<commercial_industrial_loans>/<consumer_loans_com_banks>/<real_output_hour>/<real_disposable_personal_income>/<corporate_profits_after_tax>/<imports_goods_services>/<real_gross_domestic_private_investment>")
+def predict_cpi(m2,nom_gdpcap,government_expenditures,commercial_industrial_loans,consumer_loans_com_banks,real_output_hour,real_disposable_personal_income,corporate_profits_after_tax,imports_goods_services,real_gross_domestic_private_investment):
+    C_test = [[float(m2),float(nom_gdpcap),float(government_expenditures),float(commercial_industrial_loans),float(consumer_loans_com_banks),float(real_output_hour),float(real_disposable_personal_income),float(corporate_profits_after_tax),float(imports_goods_services),float(real_gross_domestic_private_investment)]]
+    cpi_return_dict = {}
+    cpi_prediction = cpi_model_regress.predict(C_test)
+    predicted_cpi = round(cpi_prediction[0][0],3)
+    cpi_return_dict['predicted_cpi']=predicted_cpi
+#     cpi_score = jsonify(cpi_r2_score_dict)
+    # predicted_cpi = jsonify(predicted_cpi)
+    return cpi_return_dict #cpi_prediction
+
+@app.route("/pce_predict/<m2>/<nom_gdpcap>/<government_expenditures>/<government_transfer_payments>/<commercial_industrial_loans>/<consumer_loans_com_banks>/<real_output_hour>/<real_disposable_personal_income>/<median_house_sale_price>/<real_gross_domestic_private_investment>")
+def predict_pce(m2,nom_gdpcap,government_expenditures,government_transfer_payments,commercial_industrial_loans,consumer_loans_com_banks,real_output_hour,real_disposable_personal_income, median_house_sale_price,real_gross_domestic_private_investment):
+    P_test = [[float(m2),float(nom_gdpcap),float(government_expenditures),float(government_transfer_payments),float(commercial_industrial_loans),float(consumer_loans_com_banks),float(real_output_hour),float(real_disposable_personal_income),float(median_house_sale_price),float(real_gross_domestic_private_investment)]]
+    pce_return_dict = {}
+    pce_prediction = pce_model_regress.predict(P_test)
+    predicted_pce = round(pce_prediction[0][0],3)
+    pce_return_dict['predicted_pce']=predicted_pce
+    return pce_return_dict
+
+@app.route("/deflator_predict/<m2>/<real_gdp>/<government_expenditures>/<commercial_industrial_loans>/<real_output_hour>/<real_disposable_personal_income>/<gross_private_saving>/<median_house_sale_price>/<real_imports>/<real_gross_domestic_private_investment>")
+def predict_deflator(m2,real_gdp,government_expenditures,commercial_industrial_loans,real_output_hour,real_disposable_personal_income,gross_private_saving,median_house_sale_price,real_imports,real_gross_domestic_private_investment):
+    D_test = [[float(m2),float(real_gdp),float(government_expenditures),float(commercial_industrial_loans),float(real_output_hour),float(real_disposable_personal_income),float(gross_private_saving),float(median_house_sale_price),float(real_imports),float(real_gross_domestic_private_investment)]]
+    deflator_return_dict = {}
+    deflator_prediction = deflator_model_regress.predict(D_test)
+    predicted_deflator = round(deflator_prediction[0][0],3)
+    deflator_return_dict['predicted_deflator'] = predicted_deflator
+    return deflator_return_dict    
+
+if __name__ == "__main__":
+    app.run(debug = True)
 
 # @app.route("/correlation/<table6>/<column6>/<table7>/<column7>/<start_date>/<end_date>")
 # def calc_corr_coef(table6,column6,table7,column7,start_date,end_date):
@@ -553,39 +571,3 @@ def scatter_inflation_query(table_name, column_name,table_name2,column_name2,sta
 #     corr_coef_dict['corr_coef']=corr_coef[0]
 #     updated_corr_coef = jsonify(corr_coef_dict)
 #     return updated_corr_coef
-
-@app.route("/model_init")
-def populate_model_tables():
-    return model_table_values
-
-@app.route("/cpi_predict/<m2>/<nom_gdpcap>/<government_expenditures>/<commercial_industrial_loans>/<consumer_loans_com_banks>/<real_output_hour>/<real_disposable_personal_income>/<corporate_profits_after_tax>/<imports_goods_services>/<real_gross_domestic_private_investment>")
-def predict_cpi(m2,nom_gdpcap,government_expenditures,commercial_industrial_loans,consumer_loans_com_banks,real_output_hour,real_disposable_personal_income,corporate_profits_after_tax,imports_goods_services,real_gross_domestic_private_investment):
-    C_test = [[float(m2),float(nom_gdpcap),float(government_expenditures),float(commercial_industrial_loans),float(consumer_loans_com_banks),float(real_output_hour),float(real_disposable_personal_income),float(corporate_profits_after_tax),float(imports_goods_services),float(real_gross_domestic_private_investment)]]
-    cpi_return_dict = {}
-    cpi_prediction = cpi_model_regress.predict(C_test)
-    predicted_cpi = round(cpi_prediction[0][0],3)
-    cpi_return_dict['predicted_cpi']=predicted_cpi
-#     cpi_score = jsonify(cpi_r2_score_dict)
-    # predicted_cpi = jsonify(predicted_cpi)
-    return cpi_return_dict #cpi_prediction
-
-@app.route("/pce_predict/<m2>/<nom_gdpcap>/<government_expenditures>/<government_transfer_payments>/<commercial_industrial_loans>/<consumer_loans_com_banks>/<real_output_hour>/<real_disposable_personal_income>/<median_house_sale_price>/<real_gross_domestic_private_investment>")
-def predict_pce(m2,nom_gdpcap,government_expenditures,government_transfer_payments,commercial_industrial_loans,consumer_loans_com_banks,real_output_hour,real_disposable_personal_income, median_house_sale_price,real_gross_domestic_private_investment):
-    P_test = [[float(m2),float(nom_gdpcap),float(government_expenditures),float(government_transfer_payments),float(commercial_industrial_loans),float(consumer_loans_com_banks),float(real_output_hour),float(real_disposable_personal_income),float(median_house_sale_price),float(real_gross_domestic_private_investment)]]
-    pce_return_dict = {}
-    pce_prediction = pce_model_regress.predict(P_test)
-    predicted_pce = round(pce_prediction[0][0],3)
-    pce_return_dict['predicted_pce']=predicted_pce
-    return pce_return_dict
-
-@app.route("/deflator_predict/<m2>/<real_gdp>/<government_expenditures>/<commercial_industrial_loans>/<real_output_hour>/<real_disposable_personal_income>/<gross_private_saving>/<median_house_sale_price>/<real_imports>/<real_gross_domestic_private_investment>")
-def predict_deflator(m2,real_gdp,government_expenditures,commercial_industrial_loans,real_output_hour,real_disposable_personal_income,gross_private_saving,median_house_sale_price,real_imports,real_gross_domestic_private_investment):
-    D_test = [[float(m2),float(real_gdp),float(government_expenditures),float(commercial_industrial_loans),float(real_output_hour),float(real_disposable_personal_income),float(gross_private_saving),float(median_house_sale_price),float(real_imports),float(real_gross_domestic_private_investment)]]
-    deflator_return_dict = {}
-    deflator_prediction = deflator_model_regress.predict(D_test)
-    predicted_deflator = round(deflator_prediction[0][0],3)
-    deflator_return_dict['predicted_deflator'] = predicted_deflator
-    return deflator_return_dict    
-
-if __name__ == "__main__":
-    app.run(debug = True)

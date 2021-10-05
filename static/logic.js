@@ -96,7 +96,6 @@ var deflator_pct_0 = d3.select("#deflator-inv-pct");
 var cpi_button = d3.select("#cpi-btn");
 var pce_button = d3.select("#pce-btn");
 var deflator_button = d3.select("#deflator-btn");
-// var deflator_button = d3.select("#deflator-btn");
 cpi_button.on("click",calcCPI);
 pce_button.on("click",calcPCE);
 deflator_button.on("click",calcDeflator);
@@ -106,7 +105,6 @@ function init() {
         var index_dict=data;
         //populate dropdowns using json
         Object.entries(index_dict).forEach(([key,value]) => {
-            // var str1 = key + ': ' + value
             var str1 = key + ': ' + value[1]
             dropdown1.append('option').text(str1).property('value',key)
             dropdown2.append('option').text(str1).property('value',key)
@@ -155,7 +153,6 @@ function init() {
             var index_row=index_table_body.append('tr');
             Object.entries(value).forEach(([keys,values]) => {
             index_row.append('td').text(values)})});
-        // chooseChartOptions();
         chart.render();
         scatter.render();
         populateModelTables();
@@ -230,97 +227,76 @@ var options = {
             renderApexLine()
         },
     },
-},
-// annotations: {
-//     xaxis: [{
-//         x: new Date('20 Jan 2017').getTime(),
-//         x2: new Date('20 Jan 2020').getTime(),
-//         fillColor: 'red',
-//         opacity: 0.1
-//     },
-//         {
-//         x: new Date('20 Jan 2009').getTime(),
-//         x2: new Date('20 Jan 2017').getTime(),
-//         fillColor: 'blue',
-//         opacity: 0.1
-//     }]
-// },
-dataLabels: {
-    enabled: false
-},
-markers: {
-    size: 0,
-},
-title: {
-    text: '',
-    align: 'left'
-},
-fill: {
-    type: 'gradient',
-    gradient: {
-    shadeIntensity: 0,
-    inverseColors: false,
-    opacityFrom: 0,
-    opacityTo: 0,
-    stops: [0, 90, 100]
     },
-},
-yaxis: [{
-    labels: {
-    formatter: function (val) {
-        return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+    dataLabels: {
+        enabled: false
+    },
+    markers: {
+        size: 0,
+    },
+    title: {
+        text: '',
+        align: 'left'
+    },
+    fill: {
+        type: 'gradient',
+        gradient: {
+        shadeIntensity: 0,
+        inverseColors: false,
+        opacityFrom: 0,
+        opacityTo: 0,
+        stops: [0, 90, 100]
         },
     },
-},
-{
-    title: {
-        text: ' '
-    },
+    yaxis: [{
+        labels: {
+        formatter: function (val) {
+            return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+            },
+        },
     },
     {
-    opposite: true,
-    title: {
-        text:' '
-    },
-    }],
-// }],
-xaxis: {
-    type: 'datetime',
-},
-grid: {
-    show: true,
-    position:'back',
-    row: {
-        colors: ['darkgray', 'lightgray'], 
-        opacity: 0.9,
+        title: {
+            text: ' '
         },
+        },
+        {
+        opposite: true,
+        title: {
+            text:' '
+        },
+        }],
+    // }],
+    xaxis: {
+        type: 'datetime',
     },
-tooltip: {
-    shared: true,
-    fillSeriesColor: true,
-    theme: 'dark',
-    x: {
-        format: 'MMM d, yyyy'
-    }
+    grid: {
+        show: true,
+        position:'back',
+        row: {
+            colors: ['darkgray', 'lightgray'], 
+            opacity: 0.9,
+            },
+        },
+    tooltip: {
+        shared: true,
+        fillSeriesColor: true,
+        theme: 'dark',
+        x: {
+            format: 'MMM d, yyyy'
+        }
 
-},
-// responsive: [
-//     {
-//       breakpoint: 1000,
-//       options:{}
-//     }]
-};
+    },
+    // responsive: [
+    //     {
+    //       breakpoint: 1000,
+    //       options:{}
+    //     }]
+    };
 
-// var band_or_event = dropdown12.property('value');
-// console.log(band_or_event);
-// if (band_or_event == 'None') {
-//     var chart_options = options1;
-//     console.log(chart_options);}
-//     else if (band_or_event == 'Presidents') {
-//         var chart_options = options2;};
 
 // //CREATE AN INSTANCE OF THE LINE CHART
-// var chart = new ApexCharts(document.querySelector("#area-datetime"), options);
+var chart = new ApexCharts(document.querySelector("#area-datetime"), options);
 
 //POPULATE THE CPI MODEL TABLE AND FORECAST CPI
 function populateModelTables() {
@@ -806,14 +782,7 @@ var gauge_layout = {width: 600, height: 300, margin:{t:0,b:0},paper_bgcolor:"dar
 
 //DECLARE OPTIONS FOR SCATTER PLOT
 var scatter_options = {
-     series: [//{
-    //     name: `${chosen_column1}`,
-    //     data: no_xy
-    //     },
-    //     {
-    //     name: `${chosen_column2}`,
-    //     data: no_xy2,
-    //     },
+     series: [
     ],
     chart: {
     height: 600,
@@ -860,7 +829,6 @@ var scatter_options = {
             var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
             var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
             var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
-            // correlationUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);
         },
         beforeResetZoom: function(chartContext, opts) {
             plotScatter()
@@ -902,8 +870,6 @@ function plotScatter() {
     var chosen_series9=dropdown9.property('value');
     var input_start_date=date_input1.property('value');
     var input_end_date=date_input2.property('value');
-    // console.log(input_start_date);
-    // console.log(input_end_date);
     if (input_start_date=="") {
         var start_date = 'default';}
         else {
@@ -928,20 +894,15 @@ function plotScatter() {
                 var  chosen_column7=chosen_main7.concat('_change');}
                 else {
                     var  chosen_column7=chosen_main7.concat('_Pct_Change');};
-        // console.log(chosen_column6);
-        // console.log(chosen_column7);
         
         d3.json("../static/column_table.json").then((columns)=> {
             var table_dict=columns;
             var chosen_table6=table_dict[chosen_main6];
             var chosen_table7=table_dict[chosen_main7];
-            // console.log(`Chosen table`, chosen_table6);
-            // console.log(`Chosen column`, chosen_column6);
-            // console.log(chosen_table7);
             d3.json(`http://127.0.0.1:5000/scatter_api/${chosen_table6}/${chosen_column6}/${chosen_table7}/${chosen_column7}/${start_date}/${end_date}`).then((return_dict)=>{
                 // console.log(return_dict);
                 var no_xy = return_dict['scatter_values']
-                var corr_coef = return_dict['corr_coef']//['Values'];
+                var corr_coef = return_dict['corr_coef']
                 // console.log(return_dict);
                 // console.log(no_xy);
                 // console.log(corr_coef)
@@ -956,12 +917,8 @@ function plotScatter() {
                         Plotly.restyle('gauge', 'value',[corr_coef]);
                         scatter.updateSeries([{
                             name: `x:${chosen_column6}  y:${chosen_column7}`,
-                            data: no_xy}
-                            // },
-                            // {
-                            // name: `${chosen_column7}`,
-                            // data: no_xy2,
-                            // },
+                            data: no_xy
+                        }
                         ]);
                     // });
                 // });
@@ -996,8 +953,6 @@ function zoomSumChartUpdate(start_date, end_date) {
             d3.json(`http://127.0.0.1:5000/sumtablezoom/${chosen_table1}/${chosen_column1}/${start_date}/${end_date}`).then((return_dict)=>{
                 var stats1a = return_dict['stats'];
                 var stats1b = return_dict['stats2'];
-                // console.log(start_date);
-                // console.log(end_date);
                 d3.json(`http://127.0.0.1:5000/sumtablezoom/${chosen_table2}/${chosen_column2}/${start_date}/${end_date}`).then((return_dict)=>{
                     var stats2a = return_dict['stats'];
                     var stats2b = return_dict['stats2'];
@@ -1050,183 +1005,6 @@ function zoomSumChartUpdate(start_date, end_date) {
     });
 };
 
-// function correlationUpdate(start_date, end_date) {
-//         var chosen_series6=dropdown6.property('value');
-//         var chosen_series7=dropdown7.property('value');
-//         var chosen_series8=dropdown8.property('value');
-//         var chosen_series9=dropdown9.property('value');
-//         d3.json("../static/column_index.json").then((indexed_columns)=> {
-//             var index_dict3=indexed_columns;
-//             var chosen_main6=index_dict3[chosen_series6][0];
-//             var chosen_main7=index_dict3[chosen_series7][0];
-//             if (chosen_series8=='Main') {
-//                 var chosen_column6=index_dict3[chosen_series6][0];}
-//                 else if (chosen_series8=='Change') {
-//                     var chosen_column6=index_dict3[chosen_series6][0].concat('_Change');}
-//                     else {
-//                         var chosen_column6=index_dict3[chosen_series6][0].concat('_Pct_Change');};
-//             if (chosen_series9=='Main') {
-//                 var chosen_column7=chosen_main7;}
-//                 else if (chosen_series9=='Change') {
-//                     var  chosen_column7=chosen_main7.concat('_Change');}
-//                     else {
-//                         var  chosen_column7=chosen_main7.concat('_Pct_Change');};
-//             // console.log(chosen_column6);
-//             // console.log(chosen_column7);
-//             d3.json("../static/column_table.json").then((columns)=> {
-//                 var table_dict=columns;
-//                 var chosen_table6=table_dict[chosen_main6];
-//                 var chosen_table7=table_dict[chosen_main7];
-//                 // console.log(chosen_table6);
-//                 // console.log(chosen_table7);
-//                 d3.json(`http://127.0.0.1:5000/correlationupdate/${chosen_table6}/${chosen_column6}/${chosen_table7}/${chosen_column7}/${start_date}/${end_date}`).then((corr_coef_dict) => {
-//                     var corr_coef = corr_coef_dict['corr_coef'];
-//                     console.log(corr_coef_dict);
-//                     console.log(corr_coef);
-//                     Plotly.restyle('gauge', 'value',[corr_coef]);                    
-//                     var corr_coef = corr_coef_dict['corr_coef'];
-//                     console.log(corr_coef_dict);
-//                     console.log(corr_coef);
-//                     Plotly.restyle('gauge', 'value',[corr_coef]);
-//                 });
-//             });
-//         });
-//     };
-var options2 = {
-    series: [
-    ],
-    chart: {
-    type: 'area',
-    stacked: false,
-    height: 700,
-    width: 1050,
-    zoom: {
-    type: 'x',
-    enabled: true,
-    autoScaleYaxis: true
-    },
-    toolbar: {
-    autoSelected: 'zoom'
-    },
-    events: {
-        zoomed: function(chartContext, {xaxis, yaxis}) {
-            var zoomed_x_min=new Date(xaxis['min']);
-            var zoomed_x_max=new Date(xaxis['max']);
-            var min_month = zoomed_x_min.getMonth();
-            var min_day = zoomed_x_min.getDate();
-            var min_year = zoomed_x_min.getFullYear();
-            var zoomed_x_min_date = (min_month+1) + "-" + min_day + "-" + min_year;
-            var max_month = zoomed_x_max.getMonth();
-            var max_day = zoomed_x_max.getDate();
-            var max_year = zoomed_x_max.getFullYear();
-            var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
-            var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
-            var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
-            sum_table1.text("");
-            sum_table2.text("");
-            zoomSumChartUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);
-        },
-        beforeResetZoom: function(chartContext, opts) {
-            renderApexLine()
-        },
-        scrolled: function(chartContext, {xaxis}) {
-            var zoomed_x_min=new Date(xaxis['min']);
-            var zoomed_x_max=new Date(xaxis['max']);
-            var min_month = zoomed_x_min.getMonth();
-            var min_day = zoomed_x_min.getDate();
-            var min_year = zoomed_x_min.getFullYear();
-            var zoomed_x_min_date = (min_month+1) + "-" + min_day + "-" + min_year;
-            var max_month = zoomed_x_max.getMonth();
-            var max_day = zoomed_x_max.getDate();
-            var max_year = zoomed_x_max.getFullYear();
-            var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
-            var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
-            var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
-            // sum_table1.text("");
-            // sum_table2.text("");
-            zoomSumChartUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);
-        }
-    },
-},
-annotations: {
-    xaxis: [{
-        x: new Date('20 Jan 2017').getTime(),
-        x2: new Date('20 Jan 2020').getTime(),
-        fillColor: 'red',
-        opacity: 0.1
-    },
-        {
-        x: new Date('20 Jan 2009').getTime(),
-        x2: new Date('20 Jan 2017').getTime(),
-        fillColor: 'blue',
-        opacity: 0.1
-    }]
-},
-dataLabels: {
-    enabled: false
-},
-markers: {
-    size: 0,
-},
-title: {
-    text: '',
-    align: 'left'
-},
-fill: {
-    type: 'gradient',
-    gradient: {
-    shadeIntensity: 0,
-    inverseColors: false,
-    opacityFrom: 0,
-    opacityTo: 0,
-    stops: [0, 90, 100]
-    },
-},
-yaxis: [{
-    labels: {
-    formatter: function (val) {
-        return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
-        },
-    },
-},
-{
-    title: {
-        text: ' '
-    },
-    },
-    {
-    opposite: true,
-    title: {
-        text:' '
-    },
-    }],
-// }],
-xaxis: {
-    type: 'datetime',
-},
-grid: {
-    show: true,
-    position:'back',
-    row: {
-        colors: ['darkgray', 'lightgray'], 
-        opacity: 0.9,
-        },
-    },
-tooltip: {
-    shared: true,
-    fillSeriesColor: true,
-    theme: 'dark',
-    x: {
-        format: 'MMM d, yyyy'
-    }
-
-},
-// responsive: [
-//     {
-//       breakpoint: 1000,
-//       options:{}
-//     }]
-};
 function chooseChartOptions() {
     var band_or_event = dropdown12.property('value');
     // console.log(band_or_event);
@@ -1597,10 +1375,49 @@ function chooseChartOptions() {
                 }]
             }
         });
-        // else if (band_or_event == 'Events') {
-        //     chart.updateOptions({
     }
 };
 
-//CREATE AN INSTANCE OF THE LINE CHART
-var chart = new ApexCharts(document.querySelector("#area-datetime"), options);
+
+// function correlationUpdate(start_date, end_date) {
+//         var chosen_series6=dropdown6.property('value');
+//         var chosen_series7=dropdown7.property('value');
+//         var chosen_series8=dropdown8.property('value');
+//         var chosen_series9=dropdown9.property('value');
+//         d3.json("../static/column_index.json").then((indexed_columns)=> {
+//             var index_dict3=indexed_columns;
+//             var chosen_main6=index_dict3[chosen_series6][0];
+//             var chosen_main7=index_dict3[chosen_series7][0];
+//             if (chosen_series8=='Main') {
+//                 var chosen_column6=index_dict3[chosen_series6][0];}
+//                 else if (chosen_series8=='Change') {
+//                     var chosen_column6=index_dict3[chosen_series6][0].concat('_Change');}
+//                     else {
+//                         var chosen_column6=index_dict3[chosen_series6][0].concat('_Pct_Change');};
+//             if (chosen_series9=='Main') {
+//                 var chosen_column7=chosen_main7;}
+//                 else if (chosen_series9=='Change') {
+//                     var  chosen_column7=chosen_main7.concat('_Change');}
+//                     else {
+//                         var  chosen_column7=chosen_main7.concat('_Pct_Change');};
+//             // console.log(chosen_column6);
+//             // console.log(chosen_column7);
+//             d3.json("../static/column_table.json").then((columns)=> {
+//                 var table_dict=columns;
+//                 var chosen_table6=table_dict[chosen_main6];
+//                 var chosen_table7=table_dict[chosen_main7];
+//                 // console.log(chosen_table6);
+//                 // console.log(chosen_table7);
+//                 d3.json(`http://127.0.0.1:5000/correlationupdate/${chosen_table6}/${chosen_column6}/${chosen_table7}/${chosen_column7}/${start_date}/${end_date}`).then((corr_coef_dict) => {
+//                     var corr_coef = corr_coef_dict['corr_coef'];
+//                     console.log(corr_coef_dict);
+//                     console.log(corr_coef);
+//                     Plotly.restyle('gauge', 'value',[corr_coef]);                    
+//                     var corr_coef = corr_coef_dict['corr_coef'];
+//                     console.log(corr_coef_dict);
+//                     console.log(corr_coef);
+//                     Plotly.restyle('gauge', 'value',[corr_coef]);
+//                 });
+//             });
+//         });
+//     };
