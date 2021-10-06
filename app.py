@@ -383,12 +383,24 @@ def sumtablezoom_query(table_name, column_name, start_date, end_date):
     new_data = jsonify(return_dict)
     return new_data
 
-@app.route("/scatter_api/<table_name>/<column_name>/<table_name2>/<column_name2>/<start_date>/<end_date>")
-def scatter_inflation_query(table_name, column_name,table_name2,column_name2,start_date,end_date):
+@app.route("/scatter_api/<table_name>/<column_name>/<type1>/<table_name2>/<column_name2>/<type2>/<start_date>/<end_date>")
+def scatter_inflation_query(table_name, column_name,type1,table_name2,column_name2,type2,start_date,end_date):
     session=Session(engine)
     start_date = start_date.replace("-","/")
     end_date = end_date.replace("-","/")
-    print(start_date,end_date)
+    if type1 == 'Main':
+        series_1_type = ""
+    elif type1 == 'Change':
+        series_1_type = "_change"
+    elif type1 == 'Pct_Change':
+        series_1_type = "_pct_change"
+    if type2 == 'Main':
+        series_2_type = ""
+    elif type2 == 'Change':
+        series_2_type = "_change"
+    elif type2 == 'Pct_Change':
+        series_2_type = "_pct_change"
+    # print(start_date,end_date)
     if start_date == 'default':
         if end_date =='default':
             new_query = session.execute(f'select date, {column_name} from {table_name} where {column_name} is not null')
@@ -433,15 +445,10 @@ def scatter_inflation_query(table_name, column_name,table_name2,column_name2,sta
         j=j+1
     query1_df = pd.DataFrame.from_dict(return_dict,orient='index').rename(columns={0:'Date',1:'Value'})
     query2_df = pd.DataFrame.from_dict(return_dict2,orient='index').rename(columns={0:'Date',1:'Value'})
-    # if query1_df['Date'][0] >= query2_df['Date'][0]:
-    #     left_right = 'left'
-    # else:
-    #     left_right = 'right'
-    merged_df = query1_df.merge(query2_df,how='left',on='Date')
-    # if start_date != 'default':
-    #     merged_df = merged_df.loc[merged_df.loc[:,'Date']>=dt.fromisoformat(start_date),:]
-    # if end_date != 'default':
-    #     merged_df = merged_df.loc[merged_df.loc[:,'Date']<=dt.fromisoformat(end_date),:]
+    merged_df = query1_df.merge(query2_df,how='inner',on='Date')
+    # Calculations off main series and lag implementtation
+
+    # Was here before
     merged_df = merged_df.set_index('Date')
     merged_dict = merged_df.to_dict('split')
     return_dict3 = {}

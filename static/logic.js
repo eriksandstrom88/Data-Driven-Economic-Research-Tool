@@ -2,6 +2,7 @@
 
 var column_types = ['Change','Pct_Change','Main'];
 var bands_events = ['None','Presidents','Recessions','Events'];
+var lag_list = ['0','1','2','3','4','5','6','7','8','9','10']
 var dropdown1 = d3.select('#selDataset1');
 var dropdown2 = d3.select('#selDataset2');
 var dropdown3 = d3.select('#selDataset3');
@@ -146,6 +147,8 @@ function init() {
             dropdown9.append('option').text(column_type).property('value',column_type)});
         bands_events.forEach((band_type) => {
             dropdown12.append('option').text(band_type).property('value',band_type)});
+        lag_list.forEach((lag_interval) => {
+            dropdown10.append('option').text(lag_interval).property('value',lag_interval)});
         var index_table_body=d3.select("#index-table");
         //populate index table using csv
         d3.csv("../static/index.csv").then(each_series => {
@@ -872,6 +875,7 @@ function plotScatter() {
     var chosen_series7=dropdown7.property('value');
     var chosen_series8=dropdown8.property('value');
     var chosen_series9=dropdown9.property('value');
+    var lag=dropdown10.property('value');
     var input_start_date=date_input1.property('value');
     var input_end_date=date_input2.property('value');
     if (input_start_date=="") {
@@ -886,24 +890,23 @@ function plotScatter() {
         var index_dict3=indexed_columns;
         var chosen_main6=index_dict3[chosen_series6][0];
         var chosen_main7=index_dict3[chosen_series7][0];
-        if (chosen_series8=='Main') {
-            var chosen_column6=index_dict3[chosen_series6][0];}
-            else if (chosen_series8=='Change') {
-                var chosen_column6=index_dict3[chosen_series6][0].concat('_change');}
-                else {
-                    var chosen_column6=index_dict3[chosen_series6][0].concat('_Pct_Change');};
-        if (chosen_series9=='Main') {
-            var chosen_column7=chosen_main7;}
-            else if (chosen_series9=='Change') {
-                var  chosen_column7=chosen_main7.concat('_change');}
-                else {
-                    var  chosen_column7=chosen_main7.concat('_Pct_Change');};
-        
+        // if (chosen_series8=='Main') {
+        //     var chosen_column6=index_dict3[chosen_series6][0];}
+        //     else if (chosen_series8=='Change') {
+        //         var chosen_column6=index_dict3[chosen_series6][0].concat('_change');}
+        //         else {
+        //             var chosen_column6=index_dict3[chosen_series6][0].concat('_Pct_Change');};
+        // if (chosen_series9=='Main') {
+        //     var chosen_column7=chosen_main7;}
+        //     else if (chosen_series9=='Change') {
+        //         var  chosen_column7=chosen_main7.concat('_change');}
+        //         else {
+        //             var  chosen_column7=chosen_main7.concat('_Pct_Change');};        
         d3.json("../static/column_table.json").then((columns)=> {
             var table_dict=columns;
             var chosen_table6=table_dict[chosen_main6];
             var chosen_table7=table_dict[chosen_main7];
-            d3.json(`http://127.0.0.1:5000/scatter_api/${chosen_table6}/${chosen_column6}/${chosen_table7}/${chosen_column7}/${start_date}/${end_date}`).then((return_dict)=>{
+            d3.json(`http://127.0.0.1:5000/scatter_api/${chosen_table6}/${chosen_main6}/${chosen_series8}/${lag}/${chosen_table7}/${chosen_main7}/${chosen_series9}/${start_date}/${end_date}`).then((return_dict)=>{
                 // console.log(return_dict);
                 var no_xy = return_dict['scatter_values']
                 var corr_coef = return_dict['corr_coef']
