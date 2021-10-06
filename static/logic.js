@@ -890,18 +890,18 @@ function plotScatter() {
         var index_dict3=indexed_columns;
         var chosen_main6=index_dict3[chosen_series6][0];
         var chosen_main7=index_dict3[chosen_series7][0];
-        // if (chosen_series8=='Main') {
-        //     var chosen_column6=index_dict3[chosen_series6][0];}
-        //     else if (chosen_series8=='Change') {
-        //         var chosen_column6=index_dict3[chosen_series6][0].concat('_change');}
-        //         else {
-        //             var chosen_column6=index_dict3[chosen_series6][0].concat('_Pct_Change');};
-        // if (chosen_series9=='Main') {
-        //     var chosen_column7=chosen_main7;}
-        //     else if (chosen_series9=='Change') {
-        //         var  chosen_column7=chosen_main7.concat('_change');}
-        //         else {
-        //             var  chosen_column7=chosen_main7.concat('_Pct_Change');};        
+        if (chosen_series8=='Main') {
+            var chosen_column6=index_dict3[chosen_series6][0];}
+            else if (chosen_series8=='Change') {
+                var chosen_column6=index_dict3[chosen_series6][0].concat('_change');}
+                else {
+                    var chosen_column6=index_dict3[chosen_series6][0].concat('_pct_change');};
+        if (chosen_series9=='Main') {
+            var chosen_column7=chosen_main7;}
+            else if (chosen_series9=='Change') {
+                var  chosen_column7=chosen_main7.concat('_change');}
+                else {
+                    var  chosen_column7=chosen_main7.concat('_pct_change');};        
         d3.json("../static/column_table.json").then((columns)=> {
             var table_dict=columns;
             var chosen_table6=table_dict[chosen_main6];

@@ -383,11 +383,13 @@ def sumtablezoom_query(table_name, column_name, start_date, end_date):
     new_data = jsonify(return_dict)
     return new_data
 
-@app.route("/scatter_api/<table_name>/<column_name>/<type1>/<table_name2>/<column_name2>/<type2>/<start_date>/<end_date>")
-def scatter_inflation_query(table_name, column_name,type1,table_name2,column_name2,type2,start_date,end_date):
+@app.route("/scatter_api/<table_name>/<column_name>/<type1>/<lag>/<table_name2>/<column_name2>/<type2>/<start_date>/<end_date>")
+def scatter_inflation_query(table_name,column_name,type1,lag,table_name2,column_name2,type2,start_date,end_date):
     session=Session(engine)
     start_date = start_date.replace("-","/")
     end_date = end_date.replace("-","/")
+    lagged = int(lag)
+    print(lag)
     if type1 == 'Main':
         series_1_type = ""
     elif type1 == 'Change':
@@ -443,11 +445,81 @@ def scatter_inflation_query(table_name, column_name,type1,table_name2,column_nam
         value2 = each_result2[1]
         return_dict2[j] = [date2,value2]
         j=j+1
-    query1_df = pd.DataFrame.from_dict(return_dict,orient='index').rename(columns={0:'Date',1:'Value'})
-    query2_df = pd.DataFrame.from_dict(return_dict2,orient='index').rename(columns={0:'Date',1:'Value'})
+    query1_df = pd.DataFrame.from_dict(return_dict,orient='index').rename(columns={0:'Date',1:f'{column_name}'})
+    query2_df = pd.DataFrame.from_dict(return_dict2,orient='index').rename(columns={0:'Date',1:f'{column_name2}'})
     merged_df = query1_df.merge(query2_df,how='inner',on='Date')
     # Calculations off main series and lag implementtation
-
+    # columns_list = list(merged_df)
+    # column_name = columns_list[1]
+    # column_name2 = columns_list[2]
+    loop_values = [column_name,column_name2]
+    for each_series_from_df in loop_values:
+        new_change_index = 1
+        series_change_values = [0]
+        series_pct_change_values = [0]
+        for each_value in range(len(merged_df[column_name])-1):
+            try:
+                if (merged_df[each_series_from_df][new_change_index] > merged_df[each_series_from_df][each_value]):
+                    if (merged_df[each_series_from_df][each_value] > 0):
+                        change = merged_df[each_series_from_df][new_change_index]-merged_df[each_series_from_df][each_value]
+                        pct_change = (change/merged_df[each_series_from_df][each_value])*100
+                        series_change_values.append(change)
+                        series_pct_change_values.append(pct_change)
+                    elif (merged_df[each_series_from_df][each_value] < 0):
+                        change = merged_df[each_series_from_df][new_change_index]-merged_df[each_series_from_df][each_value]
+                        pct_change = abs(change/merged_df[each_series_from_df][each_value])*100
+                        series_change_values.append(change)
+                        series_pct_change_values.append(pct_change)
+                    elif (merged_df[each_series_from_df][each_value] == 0):
+                        change = merged_df[each_series_from_df][new_change_index]
+                        pct_change = 100
+                        series_change_values.append(change)
+                        series_pct_change_values.append(pct_change)
+                elif (merged_df[each_series_from_df][new_change_index] < merged_df[each_series_from_df][each_value]):
+                    if (merged_df[each_series_from_df][each_value] > 0):
+                        change = merged_df[each_series_from_df][new_change_index]-merged_df[each_series_from_df][each_value]
+                        pct_change = (change/merged_df[each_series_from_df][each_value])*100
+                        series_change_values.append(change)
+                        series_pct_change_values.append(pct_change)
+                    elif (merged_df[each_series_from_df][each_value] < 0):
+                        change = merged_df[each_series_from_df][new_change_index]-merged_df[each_series_from_df][each_value]
+                        pct_change = (abs(change)/merged_df[each_series_from_df][each_value])*100
+                        series_change_values.append(change)
+                        series_pct_change_values.append(pct_change)
+                    elif (merged_df[each_series_from_df][each_value] == 0):
+                        change = merged_df[each_series_from_df][new_change_index]
+                        pct_change = -100
+                        series_change_values.append(change)
+                        series_pct_change_values.append(pct_change)
+                elif (merged_df[each_series_from_df][new_change_index] == merged_df[each_series_from_df][each_value]):
+                    change = 0
+                    pct_change = 0
+                    series_change_values.append(change)
+                    series_pct_change_values.append(pct_change)
+                elif (merged_df[each_series_from_df][new_change_index] < merged_df[each_series_from_df][each_value]):
+                    if (merged_df[each_series_from_df][each_value] == 0):
+                        change = merged_df[each_series_from_df][new_change_index]
+                        pct_change = -100
+                        series_change_values.append(change)
+                        series_pct_change_values.append(pct_change)
+                new_change_index = new_change_index + 1
+            except:
+                print('something went wrong')
+            # print('SUCCESS')
+        merged_df[f'{each_series_from_df}_change'] = series_change_values
+        merged_df[f'{each_series_from_df}_pct_change'] = series_pct_change_values
+        print('LENGTH LENGTH LENGTH',len(merged_df[f'{column_name}_change']))
+    merged_df = merged_df.loc[:,['Date',f'{column_name}{series_1_type}',f'{column_name2}{series_2_type}']]
+    print(list(merged_df))
+    print(lagged)
+    lagged_series = merged_df[f'{column_name}{series_1_type}'].tolist()#[1:-lag].tolist()
+    final_lag_value = len(lagged_series)-lagged
+    print(final_lag_value)
+    lagged_series = lagged_series[1:final_lag_value]
+    print(len(lagged_series))
+    lagged_df = merged_df.iloc[lagged+1:,:].loc[:,['Date',f'{column_name2}{series_2_type}']]
+    lagged_df[f'{column_name}{series_1_type}'] = lagged_series
+    merged_df = lagged_df
     # Was here before
     merged_df = merged_df.set_index('Date')
     merged_dict = merged_df.to_dict('split')
