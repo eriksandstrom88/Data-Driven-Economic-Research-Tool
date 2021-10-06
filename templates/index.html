@@ -60,56 +60,58 @@
                         </div>
                     </div>
                     <div class="col-xl-5">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <h3>Summary Statistics</h3>
+                        <!-- <div id="sumstats-tables-area"> -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h3>Summary Statistics</h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div id="sumstats1-table-area" class="">
-                                    <table id="sumstats1-table" class="table table-striped">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="sumstats1-table-area" class="">
+                                        <table id="sumstats1-table" class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="background-color: white" class="table-head">Series</th>
+                                                    <th style="background-color: white" class="table-head">Start Value</th>
+                                                    <th style="background-color: white" class="table-head">End Value</th>
+                                                    <th style="background-color: white" class="table-head">Change</th>
+                                                    <th style="background-color: white" class="table-head">Percent Change</th>
+                                                    <th style="background-color: white" class="table-head">Min</th>
+                                                    <th style="background-color: white" class="table-head">Max</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="sumstats-table-1">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="sumstats2-table-area" class="">
+                                    <table id="sumstats2-table" class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th style="background-color: white" class="table-head">Series</th>
-                                                <th style="background-color: white" class="table-head">Start Value</th>
-                                                <th style="background-color: white" class="table-head">End Value</th>
-                                                <th style="background-color: white" class="table-head">Change</th>
-                                                <th style="background-color: white" class="table-head">Percent Change</th>
-                                                <th style="background-color: white" class="table-head">Min</th>
-                                                <th style="background-color: white" class="table-head">Max</th>
+                                                <th style="background-color: white" class="table-head">Average Change</th>
+                                                <th style="background-color: white" class="table-head">Change Variance</th>
+                                                <th style="background-color: white" class="table-head">Change Std Dev</th>
+                                                <th style="background-color: white" class="table-head">Avg % Change</th>
+                                                <th style="background-color: white" class="table-head">% Change Variance</th>
+                                                <th style="background-color: white" class="table-head">% Change Std Dev</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="sumstats-table-1">
+                                        <tbody id="sumstats-table-2">
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div id="sumstats2-table-area" class="">
-                                <table id="sumstats2-table" class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th style="background-color: white" class="table-head">Series</th>
-                                            <th style="background-color: white" class="table-head">Average Change</th>
-                                            <th style="background-color: white" class="table-head">Change Variance</th>
-                                            <th style="background-color: white" class="table-head">Change Std Dev</th>
-                                            <th style="background-color: white" class="table-head">Avg % Change</th>
-                                            <th style="background-color: white" class="table-head">% Change Variance</th>
-                                            <th style="background-color: white" class="table-head">% Change Std Dev</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="sumstats-table-2">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <!-- </div>     -->
                     </div>
                 </div>
                 </br>
                 <div class="row">
-                    <div class="col-xl-4">
+                    <div class="col-md-5">
                         <div id="series-dropdown-area">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -119,41 +121,49 @@
                             <!-- </br> -->
                             <div class="row">
                                 <div class="col-md-12">
-                                    <ul class="dropdown-data-selectors">
-                                        <li>
+                                    <div class="row">
+                                        <div class="col-sm-12">
                                             <div class="well">
                                                 <h5>Series 1:    <select id="selDataset1"></select></h5>
                                             </div>
-                                        </li>
-                                        <li>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
                                             <div class="well">
                                                 <h5>Series 2:    <select id="selDataset2"></option></select></h5>
                                             </div>
-                                        </li>
-                                        <li>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
                                             <div class="well">
                                                 <h5>Series 3:    <select id="selDataset3" selected="3"></select></h5>
                                             </div>
-                                        </li>
-                                        <li>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
                                             <div class="well">
                                                 <h5>Series 4:    <select id="selDataset4" selected="4"></select></h5>
                                             </div>
-                                        </li>
-                                        <li>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
                                             <div class="well">
                                                 <h5>Series 5:    <select id="selDataset5" selected="5"></select></h5>
                                             </div>
-                                        </li>
-                                    </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div> <!--ends selection table column -->
-                    <div class="col-xl-8">
+                    <div class="col-xxl-7">
+                    <!-- </br>
                     </br>
-                    </br>
-                    </br>
+                    </br> -->
                         <div id="selection-table-area" class="">
                             <table id="selection-table" class="table table-striped">
                                 <thead>
@@ -176,130 +186,115 @@
             </div> <!--ends all line chart elements container column -->
         </div> <!--ends all line chart elements row -->
         </br>
-        </br>
-        </br>
+        <!-- </br>
+        </br> -->
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <!-- <div class="col-md-3"> -->
+                    <div class="col-md-3">
                         <h2>Compare Two Series</h2>
-                    <!-- </div> -->
-                    <!-- <div class="col-md-9"></div> -->
+                    </div>
                 </div>
                 </br>
-                <!-- </br> -->
                 <div class="row">
-                    <p>Use the dropdown menus to the right of the scatter plot to select two series to compare.  The default setting is series "Change",
-                        which reports how much each series changes from one interval to the next.  The user may select "Main" or "Pct_Change" to examine 
-                        the main series or how the selected series changes by percentage from interval to interval.</p>
+                    <div class="col-md-12">
+                        <p>Use the dropdown menus to the right of the scatter plot to select two series to compare.  The default setting is series "Change",
+                            which reports how much each series changes from one interval to the next.  The user may select "Main" or "Pct_Change" to examine 
+                            the main series or how the selected series changes by percentage from interval to interval.</p>
 
-                    <p>Additionally, the user may specify a date range or simply a start date or end date to filter the two selected series.  The format MUST be mm-dd-yyyy.  
-                        Press Enter once dates are entered.  If no dates are provided, the full series will be used.  Refer to the index table for earliest dates.</p>
-                        
-                        <p>The gauge will display the correlation coefficient between the two series.</p>
+                        <p>Additionally, the user may specify a date range or simply a start date or end date to filter the two selected series.  The format MUST be mm-dd-yyyy.  
+                            Press Enter once dates are entered.  If no dates are provided, the full series will be used.  Refer to the index table for earliest dates.</p>
+                            
+                            <p>The gauge will display the correlation coefficient between the two series.</p>
+                    </div>
                 </div>
                 <div class="row">     
                     <div class="col-md-7">
-                        <!-- <div class="row">
-                            <h3>Compare Two Series</h3>
-                        </div> -->
                         <div class="row">
-                            <div id="scatter"></div>
+                            <div class="col-sm-12">
+                                <div id="scatter"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-5">
-                        <div class="row">
-                        </div>
-                        <!-- </br> -->
-                        <div class="row">
-                            <div class="col-md-5">
-                                <h5>Scatter 1 (x-axis):</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="well">
-                                    <h5><select id="selDataset6"></select><h5></h5>
+                    <div class="col-xl-5">
+                        <div id="scatter-select-gauge-area">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h5>Scatter 1 (x-axis):</h5>
                                 </div>
                             </div>
-                        </div>
-                        <!-- </br> -->
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="well">
-                                    <h5>Calc:    <select id="selDataset8"></select></h5>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="well">
+                                        <h5><select id="selDataset6"></select><h5></h5>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-2">
-                                <div class="well">
-                                    <h5>Lag:    <select id="selDataset10"></select></h5>
+                            <!-- </br> -->
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="well">
+                                        <h5>Calc:    <select id="selDataset8"></select></h5>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="well">
+                                        <h5>Lag:    <select id="selDataset10"></select></h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- </br> -->
-                        <div class="row">
-                            <div class="col-md-5">
-                                <h5>Scatter 2 (y-axis):</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="well">
-                                    <h5><select id="selDataset7"></select><h5></h5>
+                            <!-- </br> -->
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h5>Scatter 2 (y-axis):</h5>
                                 </div>
                             </div>
-                        </div>
-                        <!-- </br> -->
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="well">
-                                    <h5>Calc:    <select id="selDataset9"></select></h5>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="well">
+                                        <h5><select id="selDataset7"></select><h5></h5>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-2">
-                                <div class="well">
-                                    <h5>Lag:    <select id="selDataset11"></select></h5>
+                            <!-- </br> -->
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="well">
+                                        <h5>Calc:    <select id="selDataset9"></select></h5>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="well">
+                                        <h5>Lag:    <select id="selDataset11"></select></h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h5>Date Range:</h5>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h5>Date Range:</h5>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" id="scatter-start" type="text"placeholder="mm-dd-yyyy">
+                                </div>
+                                <div class="col-sm-1">
+                                    <h5>to</h5>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input class="form-control" id="scatter-end" type="text"placeholder="mm-dd-yyyy">
+                                </div>                                
                             </div>
-                            <div class="col-sm-3">
-                                <input class="form-control" id="scatter-start" type="text"placeholder="mm-dd-yyyy">
-                            </div>
-                            <div class="col-sm-1">
-                                <h5>to</h5>
-                            </div>
-                            <div class="col-sm-3">
-                                <input class="form-control" id="scatter-end" type="text"placeholder="mm-dd-yyyy">
-                            </div>                                
-                        </div>
-                        <!-- <div class="row">
-                            <div class="col-md-3">
-                                <div class="well">
-                                    <h5>Scatter 2:    <select id="selDataset7"></select></h5>
+                            </br>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <h3>Correlation of Scatter</h3>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="well">
-                                    <h5>Calc:    <select id="selDataset9"></select></h5>
+                            <!-- </br> -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="gauge"></div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="well">
-                                    <h5>Lag:    <select id="selDataset11"></select></h5>
-                                </div>
-                            </div>
-                        </div> -->
-                        </br>
-                        <div class="row">
-                            <h3>Correlation of Scatter</h3>
-                        </div>
-                        <!-- </br> -->
-                        <div class="row">
-                            <div id="gauge"></div>
                         </div>
                     </div> <!--ends scatter column-->
                 </div>

@@ -777,7 +777,7 @@ var gauge_trace = [{
             bar:{color:"SlateGray"}
         }
     }];
-var gauge_layout = {width: 600, height: 300, margin:{t:0,b:0},paper_bgcolor:"darkgray"};
+var gauge_layout = {width: 600, height: 280, margin:{t:0,b:0},paper_bgcolor:"darkgray"};
 
 
 //DECLARE OPTIONS FOR SCATTER PLOT
@@ -785,8 +785,8 @@ var scatter_options = {
      series: [
     ],
     chart: {
-    height: 600,
-    width: 1000,
+    height: 602,
+    width: "100%",
     type: 'scatter',
     zoom: {
         enabled: true,
@@ -855,8 +855,12 @@ var scatter_options = {
             },
         },
     },
-
     ],
+    responsive: [
+        {
+          breakpoint: 2500,
+          options:{}
+        }]
     };
 
 //CREATE AN INSTANCE OF SCATTER PLOT
