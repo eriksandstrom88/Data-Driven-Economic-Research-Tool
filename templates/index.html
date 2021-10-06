@@ -200,9 +200,17 @@
                     <div class="col-md-12">
                         <p>Use the dropdown menus to the right of the scatter plot to select two series to compare.  The default setting is series "Change",
                             which reports how much each series changes from one interval to the next.  The user may select "Main" or "Pct_Change" to examine 
-                            the main series or how the selected series changes by percentage from interval to interval.</p>
+                            the main series or how the selected series changes by percentage from interval to interval.  Given that there is daily, weekly, monthly, 
+                            quarterly and annual data, when comparing two series with different intervals, the calculation will be based on the larger interval.  For 
+                            example, when comparing monthly and quarterly data, calculations will be based on quarterly intervals.</p>
 
-                        <p>Additionally, the user may specify a date range or simply a start date or end date to filter the two selected series.  The format MUST be mm-dd-yyyy.  
+                        <p>Additionally, selecting a value in the Lag dropdown will lag the series on the x-axis by the chosen number of intervals.  For example, if the 
+                            user is comparing M2 Money Supply to CPI and they wanted to see of a delay of two months in M2 is more highly correlated with CPI than a direct 
+                            month-to-month comparison, they could select "2" in the Lag dropdown.  Even if the intervals of the data observations are different, the user can 
+                            still lag according to the larger interval.
+                        </p>
+
+                        <p>Finally, the user may specify a date range or simply a start date or end date to filter the two selected series.  The format MUST be mm-dd-yyyy.  
                             Press Enter once dates are entered.  If no dates are provided, the full series will be used.  Refer to the index table for earliest dates.</p>
                             
                             <p>The gauge will display the correlation coefficient between the two series.</p>
@@ -263,11 +271,11 @@
                                         <h5>Calc:    <select id="selDataset9"></select></h5>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <!-- <div class="col-sm-2">
                                     <div class="well">
                                         <h5>Lag:    <select id="selDataset11"></select></h5>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="row">
                                 <div class="col-sm-3">
