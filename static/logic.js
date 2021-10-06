@@ -166,133 +166,133 @@ init();
 
 // DECLARE OPTIONS FOR LINE CHART
 var options = {
-    series: [
-    ],
-    chart: {
-    type: 'area',
-    stacked: false,
-    height: 700,
-    width: 1050,
-    zoom: {
-    type: 'x',
-    enabled: true,
-    autoScaleYaxis: true
-    },
-    toolbar: {
-    autoSelected: 'zoom'
-    },
-    events: {
-        zoomed: function(chartContext, {xaxis, yaxis}) {
-            var zoomed_x_min=new Date(xaxis['min']);
-            var zoomed_x_max=new Date(xaxis['max']);
-            var min_month = zoomed_x_min.getMonth();
-            var min_day = zoomed_x_min.getDate();
-            var min_year = zoomed_x_min.getFullYear();
-            var zoomed_x_min_date = (min_month+1) + "-" + min_day + "-" + min_year;
-            var max_month = zoomed_x_max.getMonth();
-            var max_day = zoomed_x_max.getDate();
-            var max_year = zoomed_x_max.getFullYear();
-            var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
-            var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
-            var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
-            sum_table1.text("");
-            sum_table2.text("");
-            zoomSumChartUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);
+        series: [
+        ],
+        chart: {
+            type: 'area',
+            stacked: false,
+            height: 700,
+            width: "100%",
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+            autoSelected: 'zoom'
+            },
+            events: {
+                zoomed: function(chartContext, {xaxis, yaxis}) {
+                    var zoomed_x_min=new Date(xaxis['min']);
+                    var zoomed_x_max=new Date(xaxis['max']);
+                    var min_month = zoomed_x_min.getMonth();
+                    var min_day = zoomed_x_min.getDate();
+                    var min_year = zoomed_x_min.getFullYear();
+                    var zoomed_x_min_date = (min_month+1) + "-" + min_day + "-" + min_year;
+                    var max_month = zoomed_x_max.getMonth();
+                    var max_day = zoomed_x_max.getDate();
+                    var max_year = zoomed_x_max.getFullYear();
+                    var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
+                    var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
+                    var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
+                    sum_table1.text("");
+                    sum_table2.text("");
+                    zoomSumChartUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);
+                },
+                beforeResetZoom: function(chartContext, opts) {
+                    renderApexLine()
+                },
+                scrolled: function(chartContext, {xaxis, yaxis}) {
+                    // sum_table1.text("");
+                    // sum_table2.text("");
+                    // setTimeout(() => {sum_table1.text(""); sum_table2.text("");}, 2000);
+                    var zoomed_x_min=new Date(xaxis['min']);
+                    var zoomed_x_max=new Date(xaxis['max']);
+                    var min_month = zoomed_x_min.getMonth();
+                    var min_day = zoomed_x_min.getDate();
+                    var min_year = zoomed_x_min.getFullYear();
+                    var zoomed_x_min_date = (min_month+1) + "-" + min_day + "-" + min_year;
+                    var max_month = zoomed_x_max.getMonth();
+                    var max_day = zoomed_x_max.getDate();
+                    var max_year = zoomed_x_max.getFullYear();
+                    var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
+                    var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
+                    var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
+                    // setTimeout(() => {},2000);
+                    // sum_table1.text("");
+                    // sum_table2.text("");
+                    setTimeout(() => {zoomSumChartUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);}, 2000);
+                },
+                beforResetZoom: function(chartContext,opts) {
+                    renderApexLine()
+                },
+            },
+            },
+        dataLabels: {
+            enabled: false
         },
-        beforeResetZoom: function(chartContext, opts) {
-            renderApexLine()
+        markers: {
+            size: 0,
         },
-        scrolled: function(chartContext, {xaxis, yaxis}) {
-            // sum_table1.text("");
-            // sum_table2.text("");
-            // setTimeout(() => {sum_table1.text(""); sum_table2.text("");}, 2000);
-            var zoomed_x_min=new Date(xaxis['min']);
-            var zoomed_x_max=new Date(xaxis['max']);
-            var min_month = zoomed_x_min.getMonth();
-            var min_day = zoomed_x_min.getDate();
-            var min_year = zoomed_x_min.getFullYear();
-            var zoomed_x_min_date = (min_month+1) + "-" + min_day + "-" + min_year;
-            var max_month = zoomed_x_max.getMonth();
-            var max_day = zoomed_x_max.getDate();
-            var max_year = zoomed_x_max.getFullYear();
-            var zoomed_x_max_date = (max_month+1) + "-" + max_day + "-" + max_year;
-            var zoomed_x_max_date_quotes = "'" + zoomed_x_max_date + "'";
-            var zoomed_x_min_date_quotes = "'" + zoomed_x_min_date + "'";
-            // setTimeout(() => {},2000);
-            // sum_table1.text("");
-            // sum_table2.text("");
-            setTimeout(() => {zoomSumChartUpdate(zoomed_x_min_date_quotes, zoomed_x_max_date_quotes);}, 2000);
+        title: {
+            text: '',
+            align: 'left'
         },
-        beforResetZoom: function(chartContext,opts) {
-            renderApexLine()
-        },
-    },
-    },
-    dataLabels: {
-        enabled: false
-    },
-    markers: {
-        size: 0,
-    },
-    title: {
-        text: '',
-        align: 'left'
-    },
-    fill: {
-        type: 'gradient',
-        gradient: {
-        shadeIntensity: 0,
-        inverseColors: false,
-        opacityFrom: 0,
-        opacityTo: 0,
-        stops: [0, 90, 100]
-        },
-    },
-    yaxis: [{
-        labels: {
-        formatter: function (val) {
-            return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+        fill: {
+            type: 'gradient',
+            gradient: {
+            shadeIntensity: 0,
+            inverseColors: false,
+            opacityFrom: 0,
+            opacityTo: 0,
+            stops: [0, 90, 100]
             },
         },
-    },
-    {
-        title: {
-            text: ' '
-        },
+        yaxis: [{
+            labels: {
+            formatter: function (val) {
+                return val.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")
+                },
+            },
         },
         {
-        opposite: true,
-        title: {
-            text:' '
-        },
-        }],
-    // }],
-    xaxis: {
-        type: 'datetime',
-    },
-    grid: {
-        show: true,
-        position:'back',
-        row: {
-            colors: ['darkgray', 'lightgray'], 
-            opacity: 0.9,
+            title: {
+                text: ' '
             },
+            },
+            {
+            opposite: true,
+            title: {
+                text:' '
+            },
+            }],
+        // }],
+        xaxis: {
+            type: 'datetime',
         },
-    tooltip: {
-        shared: true,
-        fillSeriesColor: true,
-        theme: 'dark',
-        x: {
-            format: 'MMM d, yyyy'
-        }
+        grid: {
+            show: true,
+            position:'back',
+            row: {
+                colors: ['darkgray', 'lightgray'], 
+                opacity: 0.9,
+                },
+            },
+        tooltip: {
+            shared: true,
+            fillSeriesColor: true,
+            theme: 'dark',
+            x: {
+                format: 'MMM d, yyyy'
+            }
 
-    },
-    // responsive: [
-    //     {
-    //       breakpoint: 1000,
-    //       options:{}
-    //     }]
-    };
+        },
+        responsive: [
+            {
+              breakpoint: 2500,
+              options:{}
+            }]
+        };
 
 
 // //CREATE AN INSTANCE OF THE LINE CHART

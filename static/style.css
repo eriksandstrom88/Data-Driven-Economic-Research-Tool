@@ -23,13 +23,6 @@ h3 {
     text-align: center;
 }
 
-/* #area-datetime {
-   max-width:1050px; */
-   /* max-height: 700; */
-   /* margin-left: 35px auto;
-   margin-right: 35px auto;  */
-   /* } */
-
 #index-table>tr:nth-child(odd)>td, 
 #index-table>tbody>tr:nth-child(odd)>th {
    background-color: darkgray;
@@ -63,6 +56,14 @@ h3 {
 #sumstats-table-2>tr:nth-child(even)>td, 
 #sumstats-table-2>tbody>tr:nth-child(even)>th {
    background-color: lightgray;
+ }
+
+ #series-dropdown-area {
+    margin: 20px;
+ }
+
+ #selection-table-area {
+    margin: 20px;
  }
 
  #selection-table-body>tr:nth-child(odd)>td, 
@@ -126,4 +127,9 @@ h3 {
 
 .user-input-td {
    color: white;
+}
+
+#line-chart {
+   max-width: 1350px;
+   /* margin:20px auto; */
 }
