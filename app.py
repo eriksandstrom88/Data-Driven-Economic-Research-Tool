@@ -389,7 +389,6 @@ def scatter_inflation_query(table_name,column_name,type1,lag,table_name2,column_
     start_date = start_date.replace("-","/")
     end_date = end_date.replace("-","/")
     lagged = int(lag)
-    print(lag)
     if type1 == 'Main':
         series_1_type = ""
     elif type1 == 'Change':
@@ -402,7 +401,6 @@ def scatter_inflation_query(table_name,column_name,type1,lag,table_name2,column_
         series_2_type = "_change"
     elif type2 == 'Pct_Change':
         series_2_type = "_pct_change"
-    # print(start_date,end_date)
     if start_date == 'default':
         if end_date =='default':
             new_query = session.execute(f'select date, {column_name} from {table_name} where {column_name} is not null')
@@ -448,10 +446,6 @@ def scatter_inflation_query(table_name,column_name,type1,lag,table_name2,column_
     query1_df = pd.DataFrame.from_dict(return_dict,orient='index').rename(columns={0:'Date',1:f'{column_name}'})
     query2_df = pd.DataFrame.from_dict(return_dict2,orient='index').rename(columns={0:'Date',1:f'{column_name2}'})
     merged_df = query1_df.merge(query2_df,how='inner',on='Date')
-    # Calculations off main series and lag implementtation
-    # columns_list = list(merged_df)
-    # column_name = columns_list[1]
-    # column_name2 = columns_list[2]
     loop_values = [column_name,column_name2]
     for each_series_from_df in loop_values:
         new_change_index = 1
@@ -505,22 +499,15 @@ def scatter_inflation_query(table_name,column_name,type1,lag,table_name2,column_
                 new_change_index = new_change_index + 1
             except:
                 print('something went wrong')
-            # print('SUCCESS')
         merged_df[f'{each_series_from_df}_change'] = series_change_values
         merged_df[f'{each_series_from_df}_pct_change'] = series_pct_change_values
-        print('LENGTH LENGTH LENGTH',len(merged_df[f'{column_name}_change']))
     merged_df = merged_df.loc[:,['Date',f'{column_name}{series_1_type}',f'{column_name2}{series_2_type}']]
-    print(list(merged_df))
-    print(lagged)
-    lagged_series = merged_df[f'{column_name}{series_1_type}'].tolist()#[1:-lag].tolist()
+    lagged_series = merged_df[f'{column_name}{series_1_type}'].tolist()
     final_lag_value = len(lagged_series)-lagged
-    print(final_lag_value)
     lagged_series = lagged_series[1:final_lag_value]
-    print(len(lagged_series))
     lagged_df = merged_df.iloc[lagged+1:,:].loc[:,['Date',f'{column_name2}{series_2_type}']]
     lagged_df[f'{column_name}{series_1_type}'] = lagged_series
     merged_df = lagged_df
-    # Was here before
     merged_df = merged_df.set_index('Date')
     merged_dict = merged_df.to_dict('split')
     return_dict3 = {}
