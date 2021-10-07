@@ -1,4 +1,6 @@
 # Data-Driven-Economic-Research-Tool
+![image](https://user-images.githubusercontent.com/75816400/136383041-c7ac2ae0-c4db-449b-a771-9230ed115539.png)
+
 HIGH LEVEL OVERVIEW
 - Tool for macroeconomic research
 - Most data extracted from St. Louis Federal Reserve's FRED API, with the rest extracted from the Wall Street Journal
@@ -11,7 +13,7 @@ HIGH LEVEL OVERVIEW
 
 TECHNOLOGIES USED
 - Python (Flask, Scikit-Learn, Pandas, Matplotlib, Numpy, SQLAlchemy, statistics, datetime)
-- Javascript (D3.js)
+- Javascript (D3.js, ApexCharts, Plotly)
 - HTML5 (Bootstrap)
 - CSS
 - PostgreSQL
