@@ -27,7 +27,7 @@ The table to the right of the dropdowns displays the full name of the data serie
 
 The scatter plot below allows the user to take a closer look at a direct comparison of two data series.  Using similar dropdowns, the user can select which series to examine.  Additionally, the user may select "change" or "percent change," which are calculted based on the main series, and adjust depending on the observation interval.  The user may also "lag" one of the data series to examine if there is a stronger relationship between the two series of the observations in one series are "delayed" or "lagged" by one or more intervals (days, weeks, months, quarters, or years depending on the series).  Finally, the user may choose to filter to data after a certain start date, before a certain end date,or both by entering a date range.
 
-![image](https://user-images.githubusercontent.com/75816400/136380343-8b8fc162-0a56-49c9-8929-ea2b9bdd6fc5.png)
+![image](https://user-images.githubusercontent.com/75816400/136380813-e9c1b79f-69ea-4f3e-b643-d306052d18d1.png)
 
 Finally, below the scatter plot are three regression models for forecasting three of the mainstream measures of inflation: Consumer Price Index, Personal Consumption Expenditures, and GDP Deflator.  The user can in put values for as many as 10 variables to see how they affect the forecast.
 
