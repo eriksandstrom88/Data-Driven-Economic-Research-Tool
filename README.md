@@ -1,24 +1,33 @@
 # Data-Driven-Economic-Research-Tool
-This project is the culmination of three projects for the University of Denver's Data Analytics Bootcamp, and I intend to continue to add to it and use it in my own research for the forseeable future.  For a running list of features and improvements I would like to add, please scroll to the very bottom of this ReadMe.
+HIGH LEVEL OVERVIEW
+- Tool for macroeconomic research
+- Most data extracted from St. Louis Federal Reserve's FRED API, with the rest extracted from the Wall Street Journal
+- Data cleaned, organized and calculations run in Jupyter Notebook
+- Loaded into a PostgreSQL database (in hindsight I would use MongoDB; Postgres made sense when I started the project and I stuck with it; I may migrate at a later date)
+- Application features a line chart and corresponding summary statistics tables to examine long term trends
+- Application features a scatter plot to more closely examine the relationship between two data series
+- Application features 3 multiple regression models to forecast different inflation indices
 
 TECHNOLOGIES USED
-- Python (Flask, SK-Learn, Pandas, Matplotlib, Numpy, SQLAlchemy)
+- Python (Flask, Scikit-Learn, Pandas, Matplotlib, Numpy, SQLAlchemy, statistics, datetime)
 - Javascript (D3.js)
 - HTML5 (Bootstrap)
 - CSS
 - PostgreSQL
 
-I wanted to create a tool for economists like me to be able to analyze data acquired from the St. Louis Federal Reserve's Federal Reserve Economic Data (FRED) API.
+I wanted to create a tool for economists like me to be able to analyze data acquired from the St. Louis Federal Reserve's Federal Reserve Economic Data (FRED) API.  The result is a sophisticated application capable of processing and visualizing data observed at different time intervals and during different periods, reporting key statistics and information along with the visuals.
 
-The tool includes a line chart for visualizing time series economic data, and corresponding summary statistics tables.  The user can choose up to 5 data series to visualize on the chart using dropdowns.  The numbers in the dropdowns correspond to the index table at the bottom of the page.  The summary statistics tables are responsive to changing data selections, as well as to the user zooming in on a certain time interval for a closer look.
+The tool includes a line chart for visualizing time series economic data, and corresponding summary statistics tables.  The user can choose up to 5 data series to visualize on the chart using dropdowns.  The user may also add backgrounds to the chart to visualize major world events, presidential administrations, and economic recessions along with the time-series data.  The summary statistics tables are responsive to changing data selections, as well as to the user zooming in on a certain time interval for a closer look.
 
-![image](https://user-images.githubusercontent.com/75816400/127788383-b7606aba-7fd5-4538-9b3f-3d8193f37398.png)
+![image](https://user-images.githubusercontent.com/75816400/136378885-b8e0ed55-7bad-4911-b5ed-3365e386fc40.png)
 
-The table to the right of the dropdowns displays the full name of the data series, as well as the units, time interval, start date, and end date.
+The table to the right of the dropdowns displays the full name of the data series, as well as the units, time interval, start date, and the FRED series code.
 
-The scatter plot below allows the user to take a closer look at a direct comparison of two data series.  Using similar dropdowns, the user can select which series to examine.  Additionally, the user may select "change" or "percent change," which are calculted based on the main series.
+![image](https://user-images.githubusercontent.com/75816400/136379273-0d2f04b6-40d3-49de-b59c-1045c71dbd0d.png)
 
-![image](https://user-images.githubusercontent.com/75816400/127788402-70eff50c-3112-41e0-b25b-dc4621d10ab0.png)
+The scatter plot below allows the user to take a closer look at a direct comparison of two data series.  Using similar dropdowns, the user can select which series to examine.  Additionally, the user may select "change" or "percent change," which are calculted based on the main series, and adjust depending on the observation interval.  The user may also "lag" one of the data series to examine if there is a stronger relationship between the two series of the observations in one series are "delayed" or "lagged" by one or more intervals (days, weeks, months, quarters, or years depending on the series).  Finally, the user may choose to filter to data after a certain start date, before a certain end date,or both by entering a date range.
+
+![image](https://user-images.githubusercontent.com/75816400/136380343-8b8fc162-0a56-49c9-8929-ea2b9bdd6fc5.png)
 
 Finally, below the scatter plot are three regression models for forecasting three of the mainstream measures of inflation: Consumer Price Index, Personal Consumption Expenditures, and GDP Deflator.  The user can in put values for as many as 10 variables to see how they affect the forecast.
 
