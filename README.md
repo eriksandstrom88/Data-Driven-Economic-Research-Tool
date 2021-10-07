@@ -6,7 +6,8 @@ HIGH LEVEL OVERVIEW
 - Loaded into a PostgreSQL database (in hindsight I would use MongoDB; Postgres made sense when I started the project and I stuck with it; I may migrate at a later date)
 - Application features a line chart and corresponding summary statistics tables to examine long term trends
 - Application features a scatter plot to more closely examine the relationship between two data series
-- Application features 3 multiple regression models to forecast different inflation indices
+- Application features 3 multiple regression models to forecast different inflation indices (currently very flawed; see bottom of this ReadMe)
+- Scroll to bottom to read planned additional features and models.
 
 TECHNOLOGIES USED
 - Python (Flask, Scikit-Learn, Pandas, Matplotlib, Numpy, SQLAlchemy, statistics, datetime)
@@ -29,28 +30,20 @@ The scatter plot below allows the user to take a closer look at a direct compari
 
 ![image](https://user-images.githubusercontent.com/75816400/136380813-e9c1b79f-69ea-4f3e-b643-d306052d18d1.png)
 
-Finally, below the scatter plot are three regression models for forecasting three of the mainstream measures of inflation: Consumer Price Index, Personal Consumption Expenditures, and GDP Deflator.  The user can in put values for as many as 10 variables to see how they affect the forecast.
+Lastly, below the scatter plot are three regression models for forecasting three of the mainstream measures of inflation: Consumer Price Index, Personal Consumption Expenditures, and GDP Deflator.  The user can in put values for as many as 10 variables to see how they affect the forecast.
 
-![image](https://user-images.githubusercontent.com/75816400/127788434-d60ead08-0257-4f0c-ade6-382f5bede6ca.png)
+![image](https://user-images.githubusercontent.com/75816400/136381875-b4daeccf-373b-4e9c-9048-df213c35af7a.png)
 
 The data is stored in a PostgreSQL database.  I use a Flask application in combination with JavaScript, HTML and CSS to build all of the functionality.
 
-I am the sole author of the entire application, though I did receive some help and guidance from the teaching staff of the bootcamp, Kevin Lee, Adrienne Tecza, and Leah Stuckey.
+I am the sole author of the entire application, though I did receive some help and guidance from the teaching staff of my Data Analytics bootcamp as I was first getting started, Kevin Lee, Adrienne Tecza, and Leah Stuckey.
 
 I still have big plans for adding features, functionality, more complex models and more friendly user interface in the coming months.
 
-IMPORTANT NOTE:  NONE OF MY DATA SOURCES ARE CITED IN THE APPLICATION, WHICH IS THE PRIMARY REASON THE APPLICATION IS NOT PUBLISHED ONLINE.  ALL DATA WAS PULLED FROM THE ST. LOUIS FEDERAL RESERVE'S FRED WEBSITE WITH THE EXCEPTION OF STOCK DATA TAKEN FROM THE WALL STREET JOURNAL.  PROPER CITATION WILL BE INCLUDED IN THE NEXT VERSION OF THIS APPLICATION.
-
 FEATURES TO BE ADDED
-- Line chart background options: inflation heatmap, presidential administrations, recessions, major world events
-- R^2 score for how well one variable accounts for the variance of another in the scatter chart
-- Improve usability across data series that use different time intervals, have different start/end dates
-- Better user interface for data series selection dropdowns
-- References for data sources (see all caps above)
+- DRASTICALLY improve the existing models (currently tons of omitted variable bias, colinearity, etc.)
+- Add additional models (neural network, SVM, association rule mining, models based on different scaling techniques)
 - The ability to conduct math operations among data series
-- The ability to implement a "lag" in data series to look at delayed relationships, correlations and causality
 - Add a "build your own" multivariate regression model
-- DRASTICALLY improve the existing models.  They are all currently very basic multiple regressions, with no scaling, no consideration of omitted variable biases, no instrumental variables, no lag functionality, and other glaring weaknesses.
 - Build sector-specific models (natural resources, services, labor, etc.)
 - Once sector-specific models are complete, build an ensemble model
-- Build a complex neural network model.
