@@ -34,6 +34,8 @@ The scatter plot below allows the user to take a closer look at a direct compari
 
 Lastly, below the scatter plot are three regression models for forecasting three of the mainstream measures of inflation: Consumer Price Index, Personal Consumption Expenditures, and GDP Deflator.  The user can in put values for as many as 10 variables to see how they affect the forecast.
 
+THE MODELS ARE DEEPLY FLAWED.  I'm just being honest.  They were put together very quickly to meet a deadline (one for which quality and accuracy was not of prime importance, and yes, I'm mad at myself for even typing that).  They are full of correlated variables, omitted variable bias, and other flaws.  I plan to replace them with improved models eventually, but it is not a priority at this time.  I still really like the functionality, allowing the user to speculate on future values of the input variables, which is why they are still included.  I will keep similar functionality when I eventually replace them.
+
 ![image](https://user-images.githubusercontent.com/75816400/136381875-b4daeccf-373b-4e9c-9048-df213c35af7a.png)
 
 The data is stored in a PostgreSQL database.  I use a Flask application in combination with JavaScript, HTML and CSS to build all of the functionality.
